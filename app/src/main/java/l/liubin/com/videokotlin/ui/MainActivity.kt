@@ -1,7 +1,8 @@
-package l.liubin.com.videokotlin
+package l.liubin.com.videokotlin.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import l.liubin.com.videokotlin.R
 
 class MainActivity : AppCompatActivity() {
 
