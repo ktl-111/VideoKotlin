@@ -27,7 +27,7 @@ abstract class BaseFragment : Fragment() {
         initEvent()
     }
 
-    abstract fun initDataBefore()
+    open fun initDataBefore() {}
     abstract fun initData()
     abstract fun initEvent()
 }

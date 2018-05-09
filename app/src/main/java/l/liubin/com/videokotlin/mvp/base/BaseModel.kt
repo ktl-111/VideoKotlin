@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by l on 2018/5/8.
  */
-class BaseModel {
+open class BaseModel {
 
     val mApiService: Api by lazy {
         ApiEngine.apiEngine.getApiService()
@@ -17,12 +17,17 @@ class BaseModel {
 
     companion object {
         val delayTime: Long = 500
-        fun universal(observer: Observable<*>, baseObserver: BaseObserver<Any>, isDelay: Boolean = false) {
+        fun <T : Any> universal(observer: Observable<*>, baseObserver: BaseObserver<T>, isDelay: Boolean = false) {
             if (isDelay) {
                 observer.delay(delayTime, TimeUnit.MILLISECONDS)
             }
+
             observer.compose(RxUtils.rxSchedulerHelper())
                     .subscribe(baseObserver)
         }
     }
+}
+
+private fun <T> Observable<T>.subscribe(baseObserver: T) {
+    subscribe(baseObserver)
 }

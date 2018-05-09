@@ -50,4 +50,8 @@
     <string name="not_use_commercial">本APP只供学习交流和研究之用，\n请勿用作商业用途！</string>
     <string name="since">copyright ©2017 Xiho.</string>
     <string name="gitHub">GitHub</string>
+    <string name="index">首页</string>
+    <string name="find">发现</string>
+    <string name="popular">热门</string>
+    <string name="mine">我的</string>
 </resources>

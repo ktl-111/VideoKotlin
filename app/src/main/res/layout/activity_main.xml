@@ -6,4 +6,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:id="@+id/fl_home_content"
+                 android:layout_weight="1"></FrameLayout>
+    <RadioGroup android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/rg_home_layout"
+                android:paddingBottom="3dp">
+        <RadioButton android:id="@+id/rb_home_index" android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@null"
+                     android:button="@null"
+                     android:checked="true"
+                     android:drawableTop="@drawable/home_index_select"
+                     android:gravity="center_horizontal"
+                     android:text="@string/index"
+                     android:textSize="12sp"/>
+        <RadioButton android:id="@+id/rb_home_find" android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:background="@null"
+                     android:button="@null"
+                     android:drawableTop="@drawable/home_find_select"
+                     android:gravity="center_horizontal"
+                     android:text="@string/find"
+                     android:textSize="12sp"/>
+        <RadioButton android:id="@+id/rb_home_popular" android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1" android:background="@null"
+                     android:button="@null"
+                     android:drawableTop="@drawable/home_popular_select"
+                     android:gravity="center_horizontal"
+                     android:text="@string/popular"
+                     android:textSize="12sp"/>
+        <RadioButton android:id="@+id/rb_home_mine" android:layout_width="match_parent"
+                     android:layout_height="wrap_content" android:layout_weight="1"
+                     android:background="@null"
+                     android:button="@null"
+                     android:drawableTop="@drawable/home_mine_select"
+                     android:gravity="center_horizontal"
+                     android:text="@string/mine"
+                     android:textSize="12sp"/>
+    </RadioGroup>
 </LinearLayout>

@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by l on 2018/5/8.
  */
-abstract class BasePresenter<V, M : BaseModel>(mvpView: V) {
+abstract class BasePresenter<V, out M : BaseModel>(mvpView: V) {
     var mvpView: V? = mvpView
     val mGson: Gson by lazy { Gson() }
     val mModel: M by lazy { createModel() }

@@ -35,7 +35,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun getResId(): Int
 
-    fun initDataBefore() {
+    open fun initDataBefore() {
     }
 
     abstract fun initData()

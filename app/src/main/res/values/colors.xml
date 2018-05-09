@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="color_gray">#9a9a9a</color>
-
+    <color name="transparent">#00000000</color>
     <color name="color_gray_translucent">#5000</color>
     <color name="white">#FFFFFF</color>
     <color name="text_color">#2e2e2e</color>

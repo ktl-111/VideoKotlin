@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.utils
 
+import android.support.v4.content.ContextCompat
 import l.liubin.com.videokotlin.App.MyApplication
 
 /**
@@ -7,11 +8,10 @@ import l.liubin.com.videokotlin.App.MyApplication
  */
 object Utils {
     fun getStringFromResources(resId: Int, vararg format: Any?): String {
-        return if (format == null) {
-            MyApplication.context.resources.getString(resId)
-        } else {
-            MyApplication.context.resources.getString(resId, format)
-        }
+        return format?.let { MyApplication.context.resources.getString(resId, format) }
+                ?: MyApplication.context.resources.getString(resId)
     }
+
+    fun getColor(resId: Int): Int = ContextCompat.getColor(MyApplication.context, resId)
 
 }
