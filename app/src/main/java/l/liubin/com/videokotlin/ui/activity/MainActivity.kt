@@ -3,16 +3,18 @@ package l.liubin.com.videokotlin.ui.activity
 import kotlinx.android.synthetic.main.activity_main.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.ui.base.BaseActivity
+import l.liubin.com.videokotlin.ui.base.BaseFragment
 import l.liubin.com.videokotlin.ui.fragment.FindFragment
 import l.liubin.com.videokotlin.ui.fragment.IndexFragment
 import l.liubin.com.videokotlin.ui.fragment.MineFragment
 import l.liubin.com.videokotlin.ui.fragment.PopularFragment
 
 class MainActivity : BaseActivity() {
-    lateinit var mIndexFragment: IndexFragment
-    lateinit var mFindFragment: FindFragment
-    lateinit var mPopularFragment: PopularFragment
-    lateinit var mMineFragment: MineFragment
+    var mIndexFragment: IndexFragment? = null
+    var mFindFragment: FindFragment? = null
+    var mPopularFragment: PopularFragment? = null
+    var mMineFragment: MineFragment? = null
+    var mCurrFragment: BaseFragment? = null
 
     override fun getResId(): Int = R.layout.activity_main
 
@@ -21,8 +23,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initEvent() {
-        val beginTransaction = supportFragmentManager.beginTransaction()
         rg_home_layout.setOnCheckedChangeListener { _, Id ->
+            val beginTransaction = supportFragmentManager.beginTransaction()
+            mCurrFragment?.let { beginTransaction.hide(it) }
             when (Id) {
                 R.id.rb_home_index -> {
                     mIndexFragment?.let { beginTransaction.show(it) }
@@ -30,24 +33,35 @@ class MainActivity : BaseActivity() {
                         mIndexFragment = it
                         beginTransaction.add(R.id.fl_home_content, it, "home")
                     }
+                    mCurrFragment = mIndexFragment
                 }
-                R.id.rb_home_find->{
+                R.id.rb_home_find -> {
                     mFindFragment?.let { beginTransaction.show(it) }
-                    ?:FindFragment()?.let { mFindFragment = it
-                    beginTransaction.add(R.id.fl_home_content,it,"find")}
+                            ?: FindFragment()?.let {
+                        mFindFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, "find")
+                    }
+                    mCurrFragment = mIndexFragment
                 }
-                R.id.rb_home_popular->{
+                R.id.rb_home_popular -> {
                     mPopularFragment?.let { beginTransaction.show(it) }
-                    ?:PopularFragment()?.let { mPopularFragment = it
-                    beginTransaction.add(R.id.fl_home_content,it,"popular")}
+                            ?: PopularFragment()?.let {
+                        mPopularFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, "popular")
+                    }
+                    mCurrFragment = mIndexFragment
                 }
-                R.id.rb_home_mine->{
+                R.id.rb_home_mine -> {
                     mMineFragment?.let { beginTransaction.show(mMineFragment) }
-                    ?:MineFragment()?.let { mMineFragment = it
-                    beginTransaction.add(R.id.fl_home_content,it,"mine")}
+                            ?: MineFragment()?.let {
+                        mMineFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, "mine")
+                    }
+                    mCurrFragment = mIndexFragment
                 }
             }
-            beginTransaction.commit()
+            beginTransaction.commitAllowingStateLoss()
         }
+        rg_home_layout.check(R.id.rb_home_index)
     }
 }

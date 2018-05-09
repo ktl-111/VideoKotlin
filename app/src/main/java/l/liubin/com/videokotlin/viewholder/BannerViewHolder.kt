@@ -9,7 +9,7 @@ import l.liubin.com.videokotlin.R
 /**
  * Created by l on 2018/5/9.
  */
-class IndexViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<HomeBean.Issue.Item>(parent, R.layout.itemview_index) {
+class BannerViewHolder(parent: ViewGroup, context: Context):BaseViewHolder<HomeBean.Issue.Item>(parent, R.layout.itemview_banner) {
     var mContext: Context = context
     override fun setData(data: HomeBean.Issue.Item?) {
     }

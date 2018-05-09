@@ -10,7 +10,7 @@ data class HomeBean(val issueList: ArrayList<Issue>, val nextPageUrl: String, va
 
     data class Issue(val releaseTime: Long, val type: String, val date: Long, val total: Int, val publishTime: Long, val itemList: ArrayList<Item>, var count: Int, val nextPageUrl: String) {
 
-        data class Item(val type: String, val data: Data?, val tag: String) : Serializable {
+        data class Item(val type: String, val data: Data?, var tag: String) : Serializable {
 
             data class Data(val dataType: String,
                             val text: String,

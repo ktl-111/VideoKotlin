@@ -13,5 +13,4 @@ object Utils {
     }
 
     fun getColor(resId: Int): Int = ContextCompat.getColor(MyApplication.context, resId)
-
 }

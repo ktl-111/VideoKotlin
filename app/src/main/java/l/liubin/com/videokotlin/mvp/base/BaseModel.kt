@@ -17,7 +17,8 @@ open class BaseModel {
 
     companion object {
         val delayTime: Long = 500
-        fun <T : Any> universal(observer: Observable<*>, baseObserver: BaseObserver<T>, isDelay: Boolean = false) {
+        //observer 的泛型要定义不能用*,不然不知道发送者的类型和接受者的类型一不一致
+        fun <T : Any> universal(observer: Observable<T>, baseObserver: BaseObserver<T>, isDelay: Boolean = false) {
             if (isDelay) {
                 observer.delay(delayTime, TimeUnit.MILLISECONDS)
             }
@@ -26,8 +27,4 @@ open class BaseModel {
                     .subscribe(baseObserver)
         }
     }
-}
-
-private fun <T> Observable<T>.subscribe(baseObserver: T) {
-    subscribe(baseObserver)
 }

@@ -5,29 +5,4 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <android.support.v7.widget.Toolbar android:id="@+id/tb_index_bar"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="@dimen/title_bar_height"
-                                       app:contentInsetStart="0dp">
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/tv_index_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="首页"/>
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:layout_alignParentRight="true"
-                       android:layout_marginRight="15dp"
-                       android:src="@mipmap/ic_action_search"/>
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-    <com.jude.easyrecyclerview.EasyRecyclerView android:id="@+id/erv_index_list"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"></com.jude.easyrecyclerview.EasyRecyclerView>
 </LinearLayout>

@@ -10,6 +10,6 @@ import l.liubin.com.videokotlin.ui.base.BaseActivity
 object RxPermissionsUtils {
     fun requestPermissions(context: Context, vararg permission: String, less: (Boolean) -> Unit) {
         val rxPermissions = RxPermissions(context as BaseActivity)
-        permission?.let { rxPermissions.request(*permission) }
+        permission?.let { rxPermissions.request(*permission).subscribe(less) }
     }
 }

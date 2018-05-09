@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
  * Created by l on 2018/5/8.
  */
 abstract class BasePresenter<V, out M : BaseModel>(mvpView: V) {
-    var mvpView: V? = mvpView
+    var mView: V? = mvpView
     val mGson: Gson by lazy { Gson() }
     val mModel: M by lazy { createModel() }
     val mDisposable: CompositeDisposable by lazy { CompositeDisposable() }
@@ -16,7 +16,7 @@ abstract class BasePresenter<V, out M : BaseModel>(mvpView: V) {
     abstract fun createModel(): M
 
     fun detachView() {
-        this.mvpView = null
+        this.mView = null
         clearDisposable()
     }
 

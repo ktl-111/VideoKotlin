@@ -6,18 +6,13 @@ import l.liubin.com.videokotlin.ui.base.BaseFragment
 /**
  * Created by l on 2018/5/9.
  */
-class FindFragment:BaseFragment() {
-    override fun getResId(): Int= R.layout.fragment_find
-
-    override fun initDataBefore() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+class FindFragment : BaseFragment() {
     override fun initData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun initEvent() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getResId(): Int = R.layout.fragment_find
+
 }

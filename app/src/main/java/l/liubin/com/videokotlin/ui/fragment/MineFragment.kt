@@ -9,15 +9,10 @@ import l.liubin.com.videokotlin.ui.base.BaseFragment
 class MineFragment:BaseFragment() {
     override fun getResId(): Int= R.layout.fragment_mine
 
-    override fun initDataBefore() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun initData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun initEvent() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

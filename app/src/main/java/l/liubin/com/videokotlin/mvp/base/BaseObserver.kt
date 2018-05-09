@@ -15,10 +15,10 @@ import java.text.ParseException
 /**
  * Created by l on 2018/5/8.
  */
-abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel>, mvpView: BaseView, isShowLoading: Boolean = false) : Observer<T> {
-    val mPersenter: BasePresenter<*, BaseModel> = persenter
-    val mvpView: BaseView = mvpView
-    val isShowLoading: Boolean = isShowLoading
+abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel>, mvpView: BaseView, isShowLoading: Boolean = true) : Observer<T> {
+    private val mPersenter: BasePresenter<*, BaseModel> = persenter
+    private val mvpView: BaseView = mvpView
+    private val isShowLoading: Boolean = isShowLoading
 
     override fun onSubscribe(d: Disposable) {
         mPersenter.addDisposable(d)
