@@ -30,7 +30,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        immersionBar?.let { it.destroy() }
+        immersionBar?.let { immersionBar -> immersionBar.destroy() }
     }
 
     abstract fun getResId(): Int
