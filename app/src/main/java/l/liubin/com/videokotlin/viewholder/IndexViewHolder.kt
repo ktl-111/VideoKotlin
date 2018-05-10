@@ -38,7 +38,7 @@ class IndexViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Home
         data.data?.tags?.forEach { it.name?.let { duration += it } }
         duration += durationFormat(data.data?.duration)
         tv_tag.text = duration
-        tv_category.text = data.data?.category
+        tv_category.text = "#${data.data?.category}"
     }
 
     fun loadImg(url: String?, img: ImageView) {

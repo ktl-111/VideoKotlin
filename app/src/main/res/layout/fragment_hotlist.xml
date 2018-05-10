@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.youth.banner.Banner
+<com.jude.easyrecyclerview.EasyRecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/banner_itemview_index"
+    android:id="@+id/erv_hot_list"
     android:layout_width="match_parent"
-    android:layout_height="250dp">
+    android:layout_height="match_parent"
+    app:scrollbars="none">
 
-</com.youth.banner.Banner>
+</com.jude.easyrecyclerview.EasyRecyclerView>

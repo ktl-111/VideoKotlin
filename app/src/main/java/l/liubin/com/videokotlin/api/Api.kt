@@ -2,6 +2,7 @@ package l.liubin.com.videokotlin.api
 
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
+import com.hazz.kotlinmvp.mvp.model.bean.TabInfoBean
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -32,4 +33,16 @@ interface Api {
      */
     @GET("v4/categories")
     fun getCategory(): Observable<ArrayList<CategoryBean>>
+
+    /**
+     * 获取全部排行榜的Info（包括，title 和 Url）
+     */
+    @GET("v4/rankList")
+    fun getRankList(): Observable<TabInfoBean>
+
+    /**
+     * 获取更多的 Issue
+     */
+    @GET
+    fun getIssueData(@Url url: String): Observable<HomeBean.Issue>
 }
