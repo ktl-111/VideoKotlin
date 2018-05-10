@@ -7,6 +7,6 @@ import l.liubin.com.videokotlin.mvp.base.BaseView
  * Created by l on 2018/5/9.
  */
 interface IndexView :BaseView {
-    fun showBannerList(itemList:ArrayList<HomeBean.Issue.Item>)
+    fun showBannerList(item:HomeBean.Issue)
     fun showMoreList(itemList:ArrayList<HomeBean.Issue.Item>)
 }

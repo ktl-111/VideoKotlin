@@ -47,4 +47,8 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.0.0'
     //banner
     compile 'com.youth.banner:banner:1.4.9'
+    //圆角imgview
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

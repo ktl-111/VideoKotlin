@@ -20,12 +20,13 @@ class IndexPresenter(mView: IndexView) : BasePresenter<IndexView, IndexModel>(mV
     fun getIndexList(num: Int) {
         var function = Function<HomeBean, ObservableSource<HomeBean>> { homeBean ->
             nextUrl = homeBean.nextPageUrl
-            var bannerList = homeBean.issueList[0].itemList
+            var bannerList = homeBean.issueList[0].itemList.iterator()
             bannerList.forEach { item ->
                 if (item.type == "banner2" || item.type == "horizontalScrollCard") {
-                    bannerList.remove(item)
+                    bannerList.remove()
                 } else {
                     item.tag = IndexFragment.Banner
+
                 }
             }
             mBannerBean = homeBean
@@ -33,6 +34,7 @@ class IndexPresenter(mView: IndexView) : BasePresenter<IndexView, IndexModel>(mV
         }
         var observer = object : BaseObserver<HomeBean>(this@IndexPresenter, mView!!) {
             override fun onSuccess(data: HomeBean) {
+                mView?.showBannerList(mBannerBean.issueList[0])
                 parseData(data)
             }
         }
@@ -43,7 +45,7 @@ class IndexPresenter(mView: IndexView) : BasePresenter<IndexView, IndexModel>(mV
         nextUrl = data.nextPageUrl
         data.issueList?.let {
             if (it.size > 0) {
-                mView?.showBannerList(it[0].itemList)
+                mView?.showMoreList(it[0].itemList)
             } else {
                 mView?.onError(Utils.getStringFromResources(R.string.data_error))
             }

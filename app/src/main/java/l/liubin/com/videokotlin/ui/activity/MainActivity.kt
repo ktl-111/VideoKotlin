@@ -34,6 +34,7 @@ class MainActivity : BaseActivity() {
                         beginTransaction.add(R.id.fl_home_content, it, "home")
                     }
                     mCurrFragment = mIndexFragment
+                    immersionBar.fitsSystemWindows(false).transparentStatusBar().init()
                 }
                 R.id.rb_home_find -> {
                     mFindFragment?.let { beginTransaction.show(it) }
@@ -42,6 +43,7 @@ class MainActivity : BaseActivity() {
                         beginTransaction.add(R.id.fl_home_content, it, "find")
                     }
                     mCurrFragment = mIndexFragment
+                    immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_popular -> {
                     mPopularFragment?.let { beginTransaction.show(it) }
@@ -50,6 +52,7 @@ class MainActivity : BaseActivity() {
                         beginTransaction.add(R.id.fl_home_content, it, "popular")
                     }
                     mCurrFragment = mIndexFragment
+                    immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_mine -> {
                     mMineFragment?.let { beginTransaction.show(mMineFragment) }
@@ -58,6 +61,7 @@ class MainActivity : BaseActivity() {
                         beginTransaction.add(R.id.fl_home_content, it, "mine")
                     }
                     mCurrFragment = mIndexFragment
+                    immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
             }
             beginTransaction.commitAllowingStateLoss()
