@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.api
 
+import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -13,6 +14,7 @@ interface Api {
     companion object {
         val BASE_URL = "http://baobab.kaiyanapp.com/api/"
     }
+
     /**
      * 获取首页
      */
@@ -24,4 +26,10 @@ interface Api {
      */
     @GET
     fun getMoreHomeData(@Url url: String): Observable<HomeBean>
+
+    /**
+     * 获取分类
+     */
+    @GET("v4/categories")
+    fun getCategory(): Observable<ArrayList<CategoryBean>>
 }

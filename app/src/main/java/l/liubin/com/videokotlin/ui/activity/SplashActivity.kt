@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initData() {
-        tv_version_name.text = "${AppUtils.getVerCode(mContext)}"
+        tv_version_name.text = "${AppUtils.getVerName(mContext)}"
         splashAnimation = AlphaAnimation(1.0f, 0.5f)
         splashAnimation.duration = 1000
         splashAnimation.interpolator = LinearInterpolator()

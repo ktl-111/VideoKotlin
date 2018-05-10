@@ -11,6 +11,7 @@ import l.liubin.com.videokotlin.R
  */
 object GlideUils {
     fun loadImg(context: Context, url: Any, img: ImageView) {
+
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

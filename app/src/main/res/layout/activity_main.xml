@@ -31,7 +31,7 @@
                      android:button="@null"
                      android:drawableTop="@drawable/home_find_select"
                      android:gravity="center_horizontal"
-                     android:text="@string/find"
+                     android:text="@string/categories"
                      android:textSize="12sp"/>
         <RadioButton android:id="@+id/rb_home_popular" android:layout_width="match_parent"
                      android:layout_height="wrap_content"

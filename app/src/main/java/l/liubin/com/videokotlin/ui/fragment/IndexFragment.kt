@@ -114,8 +114,6 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
     override fun initEvent() {
         erv_index_list.setRefreshListener(this)
         erv_index_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            var preTitle: String? = null
-            var tag: Boolean = false
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 (1..10)
                         .takeWhile { it >= 4 }
@@ -123,33 +121,31 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
                 if (mAdapter.allData.size > 0) {
                     var manager = recyclerView.layoutManager as LinearLayoutManager
                     var postition = manager.findFirstCompletelyVisibleItemPosition()
-                    var item = mAdapter.getItem(postition)
-                    if (item is HomeBean.Issue.Item) {
-                        var view = manager.findViewByPosition(postition)
-                        var loca: IntArray = kotlin.IntArray(2)
-                        view.getLocationOnScreen(loca)
-                        if (isShowTitle) {
-                            println("${loca[1]}  ${loca[1] + view.measuredHeight}  ${toolbarHeight}")
-                            if ((loca[1] + view.measuredHeight) <= toolbarHeight) {
-//                                if (tv_index_title.text.isNotEmpty() && tv_index_title.text.toString() != preTitle && tag) {
-//                                    tag = !tag
-//                                    preTitle = tv_index_title.text.toString()
-//                                }
-                                tv_index_title.text = item.data?.text
-                            } else {
-                                var start: Boolean = false
-                                for (it in mAdapter.allData.reversed()) {
-                                    if (it == item) {
-                                        start = true
-                                    }
-                                    if (start && it is HomeBean.Issue.Item && it.type == "textHeader" && it != item) {
-                                        tv_index_title.text = it.data?.text
-                                        break
+                    if (postition >= 0) {
+                        var item = mAdapter.getItem(postition)
+                        if (item is HomeBean.Issue.Item) {
+                            var view = manager.findViewByPosition(postition)
+                            var loca: IntArray = kotlin.IntArray(2)
+                            view.getLocationOnScreen(loca)
+                            if (isShowTitle) {
+                                println("${loca[1]}  ${loca[1] + view.measuredHeight}  ${toolbarHeight}")
+                                if ((loca[1] + view.measuredHeight) <= toolbarHeight) {
+                                    tv_index_title.text = item.data?.text
+                                } else {
+                                    var start = false
+                                    for (it in mAdapter.allData.reversed()) {
+                                        if (it == item) {
+                                            start = true
+                                        }
+                                        if (start && it is HomeBean.Issue.Item && it.type == "textHeader" && it != item) {
+                                            tv_index_title.text = it.data?.text
+                                            break
+                                        }
                                     }
                                 }
+                            } else {
+                                tv_index_title.text = ""
                             }
-                        } else {
-                            tv_index_title.text = ""
                         }
                     }
                 }
