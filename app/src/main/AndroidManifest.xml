@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.CatrgoriesDetailsActivity"></activity>
     </application>
 
 </manifest>

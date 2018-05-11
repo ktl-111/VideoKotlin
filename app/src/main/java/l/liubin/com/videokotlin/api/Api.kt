@@ -45,4 +45,10 @@ interface Api {
      */
     @GET
     fun getIssueData(@Url url: String): Observable<HomeBean.Issue>
+
+    /**
+     * 获取分类详情List
+     */
+    @GET("v4/categories/videoList?")
+    fun getCategoryDetailList(@Query("id") id: Long): Observable<HomeBean.Issue>
 }

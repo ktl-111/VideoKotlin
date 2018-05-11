@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.fragment
 
+import android.content.Intent
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.ViewGroup
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
@@ -12,6 +13,7 @@ import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.CatrgoriesPresenter
 import l.liubin.com.videokotlin.mvp.view.CatrgoriesView
+import l.liubin.com.videokotlin.ui.activity.CatrgoriesDetailsActivity
 import l.liubin.com.videokotlin.utils.SingToast
 import l.liubin.com.videokotlin.utils.Utils
 import l.liubin.com.videokotlin.utils.dip2px
@@ -33,13 +35,17 @@ class CategoriesFragment : MvpFragment<CatrgoriesPresenter>(), CatrgoriesView {
             }
         }
         erv_categories_list.setLayoutManager(StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL))
-        var decoration = SpaceDecoration(dip2px(mContext,10f))
+        var decoration = SpaceDecoration(dip2px(mContext, 10f))
         erv_categories_list.addItemDecoration(decoration)
-        erv_categories_list.adapter=mAdapter
+        erv_categories_list.adapter = mAdapter
         mPresenter.getCatrgories(mContext)
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = mAdapter.getItem(position)
+            startActivity(Intent(mContext, CatrgoriesDetailsActivity::class.java).putExtra(CatrgoriesDetailsActivity.INTENT_BEAN, item))
+        }
     }
 
     override fun createPresent(): CatrgoriesPresenter = CatrgoriesPresenter(this)
