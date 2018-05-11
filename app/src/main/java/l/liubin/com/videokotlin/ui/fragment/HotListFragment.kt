@@ -12,6 +12,8 @@ import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.HotPresenter
 import l.liubin.com.videokotlin.mvp.view.HotView
 import l.liubin.com.videokotlin.utils.SingToast
+import l.liubin.com.videokotlin.viewholder.HotViewHolder
+import java.util.*
 
 /**
  * Created by l on 2018/5/10.
@@ -52,7 +54,8 @@ class HotListFragment : MvpFragment<HotPresenter>(), HotView {
     private var apiUrl: String? = null
     lateinit var mAdapter: RecyclerArrayAdapter<HomeBean.Issue.Item>
 
-    init {
+    override fun initDataBefore() {
+        super.initDataBefore()
         arguments?.getString(ARG_URL)?.let { apiUrl = it }
     }
 
@@ -61,13 +64,36 @@ class HotListFragment : MvpFragment<HotPresenter>(), HotView {
     override fun initData() {
         erv_hot_list.setLayoutManager(LinearLayoutManager(mContext))
         mAdapter = object : RecyclerArrayAdapter<HomeBean.Issue.Item>(mContext) {
-            override fun OnCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<*> {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+                return HotViewHolder(parent, mContext)
             }
         }
         erv_hot_list.adapter = mAdapter
     }
 
     override fun initEvent() {
+    }
+
+    var isShow: Boolean = false
+    override fun onResume() {
+        super.onResume()
+        isShow = true
+        getList()
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        getList()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isShow = false
+    }
+
+    fun getList() {
+        if (isShow && userVisibleHint) {
+            apiUrl?.let { mPresenter.getList(it) }
+        }
     }
 }

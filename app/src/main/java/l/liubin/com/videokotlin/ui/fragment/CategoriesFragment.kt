@@ -2,18 +2,18 @@ package l.liubin.com.videokotlin.ui.fragment
 
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.ViewGroup
-import com.gyf.barlibrary.ImmersionBar
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.jude.easyrecyclerview.decoration.SpaceDecoration
 import kotlinx.android.synthetic.main.fragment_categories.*
+import kotlinx.android.synthetic.main.include_title.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.CatrgoriesPresenter
 import l.liubin.com.videokotlin.mvp.view.CatrgoriesView
-import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.SingToast
+import l.liubin.com.videokotlin.utils.Utils
 import l.liubin.com.videokotlin.utils.dip2px
 import l.liubin.com.videokotlin.viewholder.CatrgoriesViewHolder
 
@@ -26,7 +26,7 @@ class CategoriesFragment : MvpFragment<CatrgoriesPresenter>(), CatrgoriesView {
     lateinit var mAdapter: RecyclerArrayAdapter<CategoryBean>
 
     override fun initData() {
-        ImmersionBar.setTitleBar(mContext as BaseActivity, tb_categories_bar)
+        tv_include_title.text = Utils.getStringFromResources(R.string.categories)
         mAdapter = object : RecyclerArrayAdapter<CategoryBean>(mContext) {
             override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
                 return CatrgoriesViewHolder(parent, mContext)
