@@ -52,7 +52,6 @@ class PopularFragment : MvpFragment<PopularPresenter>(), PopularView {
                 titleView.selectedColor = Utils.getColor(R.color.color_item_title)
                 titleView.setOnClickListener { vp_popular_content.currentItem = postion }
                 return titleView
-
             }
 
             override fun getCount(): Int = urls.size
