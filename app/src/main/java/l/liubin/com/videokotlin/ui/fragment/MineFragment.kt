@@ -6,9 +6,8 @@ import l.liubin.com.videokotlin.ui.base.BaseFragment
 /**
  * Created by l on 2018/5/9.
  */
-class MineFragment:BaseFragment() {
-    override fun getResId(): Int= R.layout.fragment_mine
-
+class MineFragment : BaseFragment() {
+    override fun getResId(): Int = R.layout.fragment_mine
 
     override fun initData() {
     }
