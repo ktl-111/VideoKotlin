@@ -55,9 +55,12 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
     override fun initDataBefore() {
         super.initDataBefore()
         intent?.let { it.getSerializableExtra(INTENT_BEAN)?.let { bean = it as CategoryBean } }
+        immersionBar.reset().titleBar(toolbar).init()
     }
 
     override fun initData() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.let { it.setDisplayHomeAsUpEnabled(true) }
         dHeight = dip2px(mContext, 250f).toDouble() - mContext.resources.getDimensionPixelSize(R.dimen.title_bar_height).toDouble()
         tv_categoriesdetails_content.text = bean.description
         ctl_catrgoriesdetila_layout.title = bean.name
@@ -88,6 +91,7 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
     }
 
     override fun initEvent() {
+        toolbar.setNavigationOnClickListener { _ -> finish() }
         appbar_layout.addOnOffsetChangedListener { _, verticalOffset ->
             var offset = Math.abs(verticalOffset).toDouble() / dHeight
 //            var hex = Integer.toHexString((Integer.parseInt("4D", 16).toDouble() * offset).toInt()).toUpperCase()

@@ -13,7 +13,7 @@
             android:id="@+id/ctl_catrgoriesdetila_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleGravity="center"
+            app:collapsedTitleGravity="left"
             app:expandedTitleMarginBottom="15dp"
             app:expandedTitleMarginStart="15dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -28,7 +28,7 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:textColor="@color/white"
-                      
+
                       android:textSize="18sp"
                       tools:text="content"/>
             <com.github.mmin18.widget.RealtimeBlurView
@@ -39,14 +39,10 @@
                 app:realtimeBlurRadius="0dp"
                 app:realtimeOverlayColor="#00000000"
             />
-            <ImageView android:id="@+id/iv_categoriesdetails_back"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_centerVertical="true"
-                       android:background="@mipmap/ic_action_back"
-                       app:layout_collapseMode="pin"/>
-            <android.support.v7.widget.Toolbar android:layout_width="match_parent"
+            <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+                                               android:layout_width="match_parent"
                                                android:layout_height="@dimen/title_bar_height"
+                                               android:minHeight="@dimen/title_bar_height"
                                                app:contentInsetStart="0dp"
                                                app:layout_collapseMode="pin">
             </android.support.v7.widget.Toolbar>
