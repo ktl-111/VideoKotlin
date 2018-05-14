@@ -1,6 +1,7 @@
 package l.liubin.com.videokotlin.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -17,6 +18,7 @@ import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.IndexPresenter
 import l.liubin.com.videokotlin.mvp.view.IndexView
+import l.liubin.com.videokotlin.ui.activity.SearchActivity
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.BannerViewHolder
@@ -180,6 +182,7 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
                 tb_index_bar.setBackgroundColor(Color.parseColor(hex))
             }
         })
+        iv_index_search.setOnClickListener { startActivity(Intent(mContext, SearchActivity::class.java)) }
     }
 
     override fun onRefresh() {

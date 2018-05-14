@@ -62,4 +62,6 @@ dependencies {
     //毛玻璃
     compile 'com.github.mmin18:realtimeblurview:1.1.0'
     implementation 'com.android.support:palette-v7:26.0.0'
+
+    implementation 'com.google.android:flexbox:0.3.1'
 }
