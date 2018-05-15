@@ -62,5 +62,11 @@ interface Api {
      * 获取搜索信息
      */
     @GET("v1/search?&num=10&start=10")
-    fun getSearchData(@Query("query") query :String) : Observable<HomeBean.Issue>
+    fun getSearchData(@Query("query") query: String): Observable<HomeBean.Issue>
+
+    /**
+     * 根据item id获取相关视频
+     */
+    @GET("v4/video/related?")
+    fun getRelatedData(@Query("id") id: Long): Observable<HomeBean.Issue>
 }

@@ -41,6 +41,8 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
         mAdapter.addAll(list)
     }
 
+    var tag = false
+
     override fun showSearchData(data: ArrayList<HomeBean.Issue.Item>?) {
         erv_search_list.setPadding(0, 0, 0, 0)
         initAdapter(mAdapter, object : AdapterListener() {
@@ -54,7 +56,10 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
         })
         if (erv_search_list.recyclerView.layoutManager !is LinearLayoutManager) {
             erv_search_list.setLayoutManager(LinearLayoutManager(mContext))
+        }
+        if (tag) {
             mAdapter.clear()
+            tag = !tag
         }
         data?.also { mAdapter.addAll(it) } ?: erv_search_list.showEmpty()
         tv_search_toast.text = String.format(resources.getString(R.string.search_result_count), et_search_content.text.toString().trim()
@@ -99,7 +104,6 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
         mAdapter.setOnItemClickListener { position ->
             var item = mAdapter.getItem(position)
             if (item is String) {
-                mAdapter.clear()
                 et_search_content.setText(item)
                 et_search_content.setSelection(item.length)
                 searchContent(item)
@@ -122,6 +126,7 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
     }
 
     private fun searchContent(content: String) {
+        tag = true
         mPresenter.getSearchData(content)
         closeKeyBord(et_search_content, mContext)
     }
