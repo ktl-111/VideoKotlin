@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.HotPresenter
 import l.liubin.com.videokotlin.mvp.view.HotView
+import l.liubin.com.videokotlin.ui.activity.VideoDetailsActivity
 import l.liubin.com.videokotlin.utils.SingToast
 import l.liubin.com.videokotlin.viewholder.HotViewHolder
 import java.util.*
@@ -72,6 +74,10 @@ class HotListFragment : MvpFragment<HotPresenter>(), HotView {
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = mAdapter.getItem(position)
+            startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
+        }
     }
 
     var isShow: Boolean = false

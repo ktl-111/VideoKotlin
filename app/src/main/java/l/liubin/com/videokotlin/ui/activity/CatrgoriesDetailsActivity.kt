@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.activity
 
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
@@ -91,6 +92,13 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = mAdapter.getItem(position)
+            startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
+        }
+
+
+
         toolbar.setNavigationOnClickListener { _ -> finish() }
         appbar_layout.addOnOffsetChangedListener { _, verticalOffset ->
             var offset = Math.abs(verticalOffset).toDouble() / dHeight

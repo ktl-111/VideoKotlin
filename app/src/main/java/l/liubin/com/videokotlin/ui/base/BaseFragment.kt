@@ -13,9 +13,9 @@ import android.view.ViewGroup
 abstract class BaseFragment : Fragment() {
     var mRootView: View? = null
     lateinit var mContext: Context
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mRootView = inflater?.inflate(getResId(), container, false)
-        mContext = activity
+        mContext = activity!!
         return mRootView
     }
 

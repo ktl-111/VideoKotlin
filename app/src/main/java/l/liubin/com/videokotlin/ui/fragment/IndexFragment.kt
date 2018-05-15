@@ -19,6 +19,7 @@ import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.IndexPresenter
 import l.liubin.com.videokotlin.mvp.view.IndexView
 import l.liubin.com.videokotlin.ui.activity.SearchActivity
+import l.liubin.com.videokotlin.ui.activity.VideoDetailsActivity
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.BannerViewHolder
@@ -35,7 +36,7 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
         val NORMAL: String = "video"
 
         fun setBannerClickListener(context: Context, homeBean: HomeBean.Issue.Item) {
-
+            context.startActivity(Intent(context, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, homeBean))
         }
     }
 
@@ -114,6 +115,12 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = mAdapter.getItem(position)
+            if (item is HomeBean.Issue.Item) {
+                startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
+            }
+        }
         erv_index_list.setRefreshListener(this)
         erv_index_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_itemview_videodetailstitle_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:drawableRight="@mipmap/ic_action_more_arrow"
+    android:gravity="center_vertical"
+    android:paddingLeft="15dp"
+    android:textColor="@color/white"
+    tools:background="#000"
+    tools:text="title">
+
+</TextView>

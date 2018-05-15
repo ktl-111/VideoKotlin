@@ -10,11 +10,11 @@ import l.liubin.com.videokotlin.ui.fragment.MineFragment
 import l.liubin.com.videokotlin.ui.fragment.PopularFragment
 
 class MainActivity : BaseActivity() {
-    var mIndexFragment: IndexFragment? = null
-    var mFindFragment: CategoriesFragment? = null
-    var mPopularFragment: PopularFragment? = null
-    var mMineFragment: MineFragment? = null
-    var mCurrFragment: BaseFragment? = null
+    private var mIndexFragment: IndexFragment? = null
+    private var mFindFragment: CategoriesFragment? = null
+    private var mPopularFragment: PopularFragment? = null
+    private var mMineFragment: MineFragment? = null
+    private var mCurrFragment: BaseFragment? = null
 
     override fun getResId(): Int = R.layout.activity_main
 
@@ -30,36 +30,36 @@ class MainActivity : BaseActivity() {
                 R.id.rb_home_index -> {
                     mIndexFragment?.let { beginTransaction.show(it) }
                             ?: IndexFragment()?.let {
-                        mIndexFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, "home")
-                    }
+                                mIndexFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, "home")
+                            }
                     mCurrFragment = mIndexFragment
                     immersionBar.fitsSystemWindows(false).transparentStatusBar().init()
                 }
                 R.id.rb_home_find -> {
                     mFindFragment?.let { beginTransaction.show(it) }
                             ?: CategoriesFragment()?.let {
-                        mFindFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, "find")
-                    }
+                                mFindFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, "find")
+                            }
                     mCurrFragment = mFindFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_popular -> {
                     mPopularFragment?.let { beginTransaction.show(it) }
                             ?: PopularFragment()?.let {
-                        mPopularFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, "popular")
-                    }
+                                mPopularFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, "popular")
+                            }
                     mCurrFragment = mPopularFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_mine -> {
                     mMineFragment?.let { beginTransaction.show(mMineFragment) }
                             ?: MineFragment()?.let {
-                        mMineFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, "mine")
-                    }
+                                mMineFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, "mine")
+                            }
                     mCurrFragment = mMineFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }

@@ -41,7 +41,7 @@ class PopularFragment : MvpFragment<PopularPresenter>(), PopularView {
     override fun showPopular(bean: TabInfoBean) {
         var urls = arrayListOf<String>()
         bean.tabInfo.tabList.forEach { urls.add(it.apiUrl) }
-        vp_popular_content.adapter = PopularAdapter(fragmentManager, urls)
+        vp_popular_content.adapter = PopularAdapter(fragmentManager!!, urls)
         vp_popular_content.offscreenPageLimit = urls.size
         var navigator = CommonNavigator(mContext)
         navigator.adapter = object : CommonNavigatorAdapter() {
