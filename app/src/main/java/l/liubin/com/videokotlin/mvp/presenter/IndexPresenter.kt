@@ -45,7 +45,6 @@ class IndexPresenter(mView: IndexView) : BasePresenter<IndexView, IndexModel>(mV
         nextUrl = data.nextPageUrl
         data.issueList?.let {
             if (it.size > 0) {
-                mView?.onSuccess(Utils.getStringFromResources(R.string.refresh_success))
                 mView?.showMoreList(it[0].itemList)
             } else {
                 mView?.onError(Utils.getStringFromResources(R.string.data_error))

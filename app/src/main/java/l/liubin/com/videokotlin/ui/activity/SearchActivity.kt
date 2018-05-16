@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.activity
 
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -107,6 +108,8 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
                 et_search_content.setText(item)
                 et_search_content.setSelection(item.length)
                 searchContent(item)
+            } else if (item is HomeBean.Issue.Item) {
+                startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
             }
         }
         et_search_content.setOnEditorActionListener { _, action, _ ->
