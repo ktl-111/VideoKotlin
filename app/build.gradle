@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "l.liubin.com.videokotlin"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         renderscriptSupportModeEnabled true
         renderscriptTargetApi 19
         versionCode 1
@@ -27,7 +27,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -47,7 +47,7 @@ dependencies {
     compile 'com.jude:easyrecyclerview:4.4.0'
     //okhttp
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    implementation 'com.android.support:recyclerview-v7:26.0.0'
+    implementation 'com.android.support:recyclerview-v7:27.0.0'
     //banner
     compile 'com.youth.banner:banner:1.4.9'
     //圆角imgview
@@ -59,10 +59,10 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.0.0'
     //indicator
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
-    implementation 'com.android.support:design:26.0.0'
+    implementation 'com.android.support:design:27.1.1'
     //毛玻璃
     compile 'com.github.mmin18:realtimeblurview:1.1.0'
-    implementation 'com.android.support:palette-v7:26.0.0'
+    implementation 'com.android.support:palette-v7:27.1.1'
 
     implementation 'com.google.android:flexbox:0.3.1'
 }

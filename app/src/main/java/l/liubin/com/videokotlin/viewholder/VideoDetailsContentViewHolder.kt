@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.view.ViewGroup
 import android.widget.TextView
-import com.bumptech.glide.load.model.GlideUrl
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.makeramen.roundedimageview.RoundedImageView
@@ -32,7 +31,8 @@ class VideoDetailsContentViewHolder(parent: ViewGroup, context: Context) : BaseV
     override fun setData(data: HomeBean.Issue.Item) {
         GlideUils.loadImg(mContext, data.data?.cover?.feed!!, riv_img)
         var content = SpannableString("${data.data.title}\n#${data.data.category}/${durationFormat(data.data.duration)}")
-        content.setSpan(RelativeSizeSpan(0.5f), 0, data.data.title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        content.setSpan(ForegroundColorSpan(Color.parseColor("#aaaaaa")), 0, data.data.title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        content.setSpan(RelativeSizeSpan(0.7f), data.data.title.length, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        content.setSpan(ForegroundColorSpan(Color.parseColor("#aaaaaa")), data.data.title.length, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_content.text = content
     }
 }

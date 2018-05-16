@@ -12,6 +12,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/riv_itemview_videodetailscontent_img"
         android:layout_width="135dp"
+        android:scaleType="centerCrop"
         android:layout_height="80dp"
         app:riv_corner_radius="5dp" />
 

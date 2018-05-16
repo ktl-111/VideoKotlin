@@ -1,26 +1,25 @@
 package l.liubin.com.videokotlin.ui.activity
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
+import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView
-import l.liubin.com.videokotlin.utils.SingToast
-import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.utils.DisplayManager
-import l.liubin.com.videokotlin.utils.GlideUils
+import l.liubin.com.videokotlin.utils.SingToast
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
 
@@ -87,8 +86,9 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView {
         }
         erv_videodetails_list.adapter = mAdapter
         mPresenter.getOrtherData(data?.data?.id!!)
+        DisplayManager.init(mContext)
         val backgroundUrl = data.data?.cover?.blurred + "/thumbnail/${DisplayManager.getScreenHeight()!! - DisplayManager.dip2px(250f)!!}x${DisplayManager.getScreenWidth()}"
-        backgroundUrl?.let {
+        backgroundUrl.let {
             var options = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .format(DecodeFormat.PREFER_ARGB_8888)
@@ -105,5 +105,10 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView {
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = mAdapter.getItem(position)
+            startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
+        }
+
     }
 }
