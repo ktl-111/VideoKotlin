@@ -59,4 +59,5 @@
     <string name="error_more">--出错,点击重试--</string>
     <string name="my_cache">我的缓存</string>
     <string name="refresh_success">刷新成功</string>
+    <string name="download">下载</string>
 </resources>
