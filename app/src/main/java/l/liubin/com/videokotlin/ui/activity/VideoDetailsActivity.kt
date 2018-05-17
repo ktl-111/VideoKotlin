@@ -21,17 +21,26 @@ import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.makeramen.roundedimageview.RoundedImageView
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.internal.schedulers.ExecutorScheduler
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
+import l.liubin.com.videokotlin.api.ApiEngine
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView
-import l.liubin.com.videokotlin.utils.DisplayManager
-import l.liubin.com.videokotlin.utils.GlideUils
-import l.liubin.com.videokotlin.utils.SingToast
-import l.liubin.com.videokotlin.utils.durationFormat
+import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
+import okhttp3.ResponseBody
+import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
+import java.util.function.Consumer
 
 /**
  * Created by l on 2018/5/15.
@@ -64,6 +73,43 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         tv_usertag.text = content
         GlideUils.loadImg(mContext, data.data?.author?.icon!!, riv_img)
         tv_download.setOnClickListener { _ ->
+
+            var unit = TimeUnit.MILLISECONDS
+            var workQueue = LinkedBlockingDeque<Runnable>()
+            var threadFactory = Executors.defaultThreadFactory()
+            var handler = ThreadPoolExecutor.AbortPolicy()
+            var executor = ThreadPoolExecutor(3, // 执行线程的线程数
+                    3, // 在线程池中最多能创建多少个线程
+                    10,// 表示线程没有任务执行时最多保持多久时间会终
+                    unit, // 时间单位
+                    workQueue, // 缓存队列,用来存放等待执行的任务
+                    threadFactory, // 线程工厂,创建线程
+                    handler)// 异常捕获器
+            (1 until 10).forEach {
+                Observable.create(object : ObservableOnSubscribe<String> {
+                    override fun subscribe(e: ObservableEmitter<String>) {
+                        println("执行前$it")
+                        Thread.sleep(3000)
+                        println("执行后$it")
+                        e.onNext("$it   ${System.currentTimeMillis()}  ${Thread.currentThread()}")
+                    }
+                }).subscribeOn(Schedulers.from(executor))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(object : Observer<String> {
+                            override fun onComplete() {
+                            }
+
+                            override fun onSubscribe(d: Disposable) {
+                            }
+
+                            override fun onNext(t: String) {
+                                println("onNext$t")
+                            }
+
+                            override fun onError(e: Throwable) {
+                            }
+                        })
+            }
 
         }
     }

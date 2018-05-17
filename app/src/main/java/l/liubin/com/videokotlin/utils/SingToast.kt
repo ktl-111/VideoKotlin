@@ -8,19 +8,22 @@ import android.widget.Toast
  * 单例模式
  */
 
-class SingToast() {
-    companion object {
-        var instance: Toast? = null
-        @Synchronized
-        fun getInstance(context: Context, msg: String): Toast {
-            instance?.let { instance?.setText(msg) }
-                    ?: Toast.makeText(context, msg, Toast.LENGTH_SHORT)
-                    ?.let { instance = it }
-            return instance!!
-        }
+object SingToast {
+    var instance: Toast? = null
 
-        fun showToast(context: Context, msg: String) {
-            getInstance(context, msg).show()
-        }
+    fun getInstance(context: Context, msg: String): Toast {
+        instance?.let { instance?.setText(msg) }
+                ?: createToast(context, msg)
+                        ?.let { instance = it }
+        return instance!!
+    }
+
+    @Synchronized
+    private fun createToast(context: Context, msg: String): Toast {
+        return instance?.let { instance } ?: Toast.makeText(context, msg, Toast.LENGTH_SHORT)
+    }
+
+    fun showToast(context: Context, msg: String) {
+        getInstance(context, msg).show()
     }
 }
