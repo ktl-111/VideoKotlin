@@ -1,6 +1,8 @@
 package l.liubin.com.videokotlin.api
 
 import l.liubin.com.videokotlin.BuildConfig
+import l.liubin.com.videokotlin.download.DownloadInterceptor
+import l.liubin.com.videokotlin.download.DownloadListener
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,6 +22,25 @@ class ApiEngine {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         }
+        var listener = object : DownloadListener {
+            override fun onStartDownload(url: String) {
+                println("onStartDownload")
+            }
+
+            override fun onProgress(progress: Int) {
+                println("onProgress  $progress")
+            }
+
+            override fun onFinishDownload() {
+                println("onFinishDownload")
+            }
+
+            override fun onFail(errorInfo: String) {
+                println("onFail")
+            }
+
+        }
+        builder.addInterceptor(DownloadInterceptor(listener))
         Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .client(builder.build())

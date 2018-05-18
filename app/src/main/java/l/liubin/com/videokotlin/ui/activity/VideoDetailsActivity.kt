@@ -1,8 +1,10 @@
 package l.liubin.com.videokotlin.ui.activity
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Environment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,10 +23,9 @@ import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.makeramen.roundedimageview.RoundedImageView
-import io.reactivex.*
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.internal.schedulers.ExecutorScheduler
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
@@ -35,12 +36,14 @@ import l.liubin.com.videokotlin.mvp.view.VideoView
 import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
-import okhttp3.ResponseBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.lang.Exception
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
 
 /**
  * Created by l on 2018/5/15.
@@ -57,6 +60,7 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
     lateinit var tv_download: TextView
     lateinit var riv_img: RoundedImageView
 
+
     override fun onBindView(headerView: View) {
         tv_title = headerView.findViewById(R.id.tv_itemview_videodetails_info_title)
         tv_content = headerView.findViewById(R.id.tv_itemview_videodetails_info_content)
@@ -72,6 +76,12 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         content.setSpan(ForegroundColorSpan(Color.parseColor("#aaaaaa")), data.data?.author?.name?.length!!, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_usertag.text = content
         GlideUils.loadImg(mContext, data.data?.author?.icon!!, riv_img)
+        var tv_close: TextView = headerView.findViewById(R.id.tv_close)
+        var dis = hashMapOf<String, Disposable>()
+        tv_close.setOnClickListener { _ ->
+            dis[data.data?.playUrl!!]?.dispose()
+        }
+        RxPermissionsUtils.requestPermissions(mContext, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) { b: Boolean -> SingToast.showToast(mContext, "$b") }
         tv_download.setOnClickListener { _ ->
 
             var unit = TimeUnit.MILLISECONDS
@@ -85,32 +95,92 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
                     workQueue, // 缓存队列,用来存放等待执行的任务
                     threadFactory, // 线程工厂,创建线程
                     handler)// 异常捕获器
-            (1 until 10).forEach {
-                Observable.create(object : ObservableOnSubscribe<String> {
-                    override fun subscribe(e: ObservableEmitter<String>) {
-                        println("执行前$it")
-                        Thread.sleep(3000)
-                        println("执行后$it")
-                        e.onNext("$it   ${System.currentTimeMillis()}  ${Thread.currentThread()}")
+            ApiEngine.apiEngine.getApiService().download(data.data?.playUrl!!)
+                    .subscribeOn(Schedulers.from(executor))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map {
+                        var path = Environment.getExternalStorageDirectory().path + "/测试.mp4"
+                        writeFile(it.byteStream(), path)
+                        "成功"
                     }
-                }).subscribeOn(Schedulers.from(executor))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(object : Observer<String> {
-                            override fun onComplete() {
-                            }
+                    .subscribe(object : Observer<String> {
+                        override fun onNext(t: String) {
+                            println("onNext$t")
+                        }
 
-                            override fun onSubscribe(d: Disposable) {
-                            }
+                        override fun onSubscribe(d: Disposable) {
 
-                            override fun onNext(t: String) {
-                                println("onNext$t")
-                            }
+                            dis.put(data.data?.playUrl!!, d)
+                        }
 
-                            override fun onError(e: Throwable) {
-                            }
-                        })
+                        override fun onComplete() {
+                        }
+
+                        override fun onError(e: Throwable) {
+                        }
+
+                    })
+
+//            (1 until 10).forEach {
+//                Observable.create(object : ObservableOnSubscribe<String> {
+//                    override fun subscribe(e: ObservableEmitter<String>) {
+//                        println("执行前$it")
+//                        var time: Long = System.currentTimeMillis()
+//                        while (true) {
+//                            if (System.currentTimeMillis() - time > 5000) {
+//                                break
+//                            }
+//                            if (e.isDisposed) {
+//                                println("$it 已销毁")
+//                                return
+//                            }
+//                        }
+//                        println("执行后$it")
+//                        e.onNext("$it   ${System.currentTimeMillis()}  ${Thread.currentThread()}")
+//                    }
+//                }).subscribeOn(Schedulers.from(executor))
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(object : Observer<String> {
+//                            override fun onComplete() {
+//                            }
+//
+//                            override fun onSubscribe(d: Disposable) {
+//                                dis.put(it, d)
+//                                println("Disposable集合大小 ${dis.size}")
+//                            }
+//
+//                            override fun onNext(t: String) {
+//                                println("onNext$t")
+//                            }
+//
+//                            override fun onError(e: Throwable) {
+//                            }
+//                        })
+//            }
+
+        }
+    }
+
+    fun writeFile(inputstream: InputStream, filePath: String) {
+        var file = File(filePath)
+        if (file.exists()) {
+            file.delete()
+        }
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(file)
+            var b = ByteArray(1024)
+            var len: Int = inputstream.read(b)
+            while (len != -1) {
+                fos.write(b, 0, len)
+                len = inputstream.read(b)
             }
 
+        } catch (e: Exception) {
+
+        } finally {
+            inputstream.close()
+            fos?.close()
         }
     }
 

@@ -71,4 +71,6 @@ interface Api {
     @GET("v4/video/related?")
     fun getRelatedData(@Query("id") id: Long): Observable<HomeBean.Issue>
 
+    @GET
+    fun download(@Url url: String): Observable<ResponseBody>
 }
