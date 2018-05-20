@@ -60,4 +60,5 @@
     <string name="my_cache">我的缓存</string>
     <string name="refresh_success">刷新成功</string>
     <string name="download">下载</string>
+    <string name="is_exist">该视频以下载</string>
 </resources>

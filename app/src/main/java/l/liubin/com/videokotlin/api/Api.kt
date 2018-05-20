@@ -3,11 +3,11 @@ package l.liubin.com.videokotlin.api
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.hazz.kotlinmvp.mvp.model.bean.TabInfoBean
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import okhttp3.ResponseBody
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.Response
+import retrofit2.http.*
 
 /**
  * Created by l on 2018/5/8.
@@ -71,6 +71,19 @@ interface Api {
     @GET("v4/video/related?")
     fun getRelatedData(@Query("id") id: Long): Observable<HomeBean.Issue>
 
+    @Streaming
     @GET
-    fun download(@Url url: String): Observable<ResponseBody>
+    fun download(@Header("Range") range: String, @Url url: String): Observable<Response<ResponseBody>>
+
+    @GET
+    fun checkGet(@Url url: String): Observable<Response<Void>>
+
+    @HEAD
+    fun checkRangeByHead(@Header("Range") range: String,
+                         @Url url: String): Observable<Response<Void>>
+
+    @Streaming
+    @GET
+    fun check(@Url url: String): Observable<Response<ResponseBody>>
+
 }

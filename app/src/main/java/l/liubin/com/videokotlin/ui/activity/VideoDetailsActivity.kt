@@ -23,21 +23,32 @@ import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.makeramen.roundedimageview.RoundedImageView
-import io.reactivex.Observer
+import com.raizlabs.android.dbflow.sql.language.Select
+import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.api.ApiEngine
+import l.liubin.com.videokotlin.datebase.DownloadModel
+import l.liubin.com.videokotlin.datebase.DownloadModel_Table
+import l.liubin.com.videokotlin.download.DownloadState
+import l.liubin.com.videokotlin.mvp.base.BaseObserver
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView
 import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
+import okhttp3.*
+import okhttp3.internal.http.HttpHeaders
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
+import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
 import java.util.concurrent.Executors
@@ -79,7 +90,7 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         var tv_close: TextView = headerView.findViewById(R.id.tv_close)
         var dis = hashMapOf<String, Disposable>()
         tv_close.setOnClickListener { _ ->
-            dis[data.data?.playUrl!!]?.dispose()
+            isPause = true
         }
         RxPermissionsUtils.requestPermissions(mContext, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) { b: Boolean -> SingToast.showToast(mContext, "$b") }
         tv_download.setOnClickListener { _ ->
@@ -95,90 +106,107 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
                     workQueue, // 缓存队列,用来存放等待执行的任务
                     threadFactory, // 线程工厂,创建线程
                     handler)// 异常捕获器
-            ApiEngine.apiEngine.getApiService().download(data.data?.playUrl!!)
-                    .subscribeOn(Schedulers.from(executor))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map {
-                        var path = Environment.getExternalStorageDirectory().path + "/测试.mp4"
-                        writeFile(it.byteStream(), path)
-                        "成功"
-                    }
-                    .subscribe(object : Observer<String> {
-                        override fun onNext(t: String) {
-                            println("onNext$t")
+            println("开始")
+            var url = "http://shouji.360tpcdn.com/170901/ec1eaad9d0108b30d8bd602da9954bb7/com.taobao.taobao_161.apk"
+//            var url = "http://shouji.360tpcdn.com/170922/9ffde35adefc28d3740d4e16612f078a/com.tencent.tmgp.sgame_22011304.apk"
+//            var url = data.data?.playUrl!!
+            if (totalSize == 0.toLong()) {
+                ApiEngine.apiEngine.getApiService().check(url)
+                        .subscribeOn(Schedulers.io())
+                        .map {
+                            println("${HttpHeaders.contentLength(it.headers())}   ${it.body()?.byteStream()
+                                    ?: "null"}")
+                            var path = Environment.getExternalStorageDirectory().path + "/测试.apk"
+                            totalSize = HttpHeaders.contentLength(it.headers())
+                            var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(data.data?.playUrl)).querySingle()
+                            select?.also {
+                                it.savepath = path
+                                it.currlength = 0
+                                it.totallength = totalSize
+                                it.img_url = data.data?.cover?.feed
+                                it.download_url = data.data?.playUrl
+                                it.title = data.data?.title
+                                it.state = DownloadState.STATE_START
+                                it.save()
+                                it.insert()
+                            }
+                                    ?: SingToast.showToast(mContext, Utils.getStringFromResources(R.string.is_exist))
+                            writeFile(it.body()?.byteStream()!!, path)
+                            "完成"
                         }
+                        .subscribe(object : Observer<String> {
+                            override fun onComplete() {
+                            }
 
-                        override fun onSubscribe(d: Disposable) {
+                            override fun onSubscribe(d: Disposable) {
+                                dis.put(data.data?.playUrl!!, d)
+                            }
 
-                            dis.put(data.data?.playUrl!!, d)
+                            override fun onNext(t: String) {
+                                println(t)
+                            }
+
+                            override fun onError(e: Throwable) {
+                                println(BaseObserver.parseError(e))
+                            }
+
+                        })
+            } else {
+                ApiEngine.apiEngine.getApiService().download("bytes=$currSize-$totalSize", url)
+                        .subscribeOn(Schedulers.io())
+                        .map {
+                            println("${HttpHeaders.contentLength(it.headers())}   ${it.body()?.byteStream()
+                                    ?: "null"}")
+                            var path = Environment.getExternalStorageDirectory().path + "/测试.apk"
+                            writeFile(it.body()?.byteStream()!!, path)
+                            "完成"
                         }
+                        .subscribe(object : Observer<String> {
+                            override fun onComplete() {
+                            }
 
-                        override fun onComplete() {
-                        }
+                            override fun onSubscribe(d: Disposable) {
+                                dis.put(data.data?.playUrl!!, d)
+                            }
 
-                        override fun onError(e: Throwable) {
-                        }
+                            override fun onNext(t: String) {
+                                println(t)
+                            }
 
-                    })
+                            override fun onError(e: Throwable) {
+                                println(BaseObserver.parseError(e))
+                            }
 
-//            (1 until 10).forEach {
-//                Observable.create(object : ObservableOnSubscribe<String> {
-//                    override fun subscribe(e: ObservableEmitter<String>) {
-//                        println("执行前$it")
-//                        var time: Long = System.currentTimeMillis()
-//                        while (true) {
-//                            if (System.currentTimeMillis() - time > 5000) {
-//                                break
-//                            }
-//                            if (e.isDisposed) {
-//                                println("$it 已销毁")
-//                                return
-//                            }
-//                        }
-//                        println("执行后$it")
-//                        e.onNext("$it   ${System.currentTimeMillis()}  ${Thread.currentThread()}")
-//                    }
-//                }).subscribeOn(Schedulers.from(executor))
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(object : Observer<String> {
-//                            override fun onComplete() {
-//                            }
-//
-//                            override fun onSubscribe(d: Disposable) {
-//                                dis.put(it, d)
-//                                println("Disposable集合大小 ${dis.size}")
-//                            }
-//
-//                            override fun onNext(t: String) {
-//                                println("onNext$t")
-//                            }
-//
-//                            override fun onError(e: Throwable) {
-//                            }
-//                        })
-//            }
-
+                        })
+            }
         }
     }
 
+    var currSize: Long = 0
+    var totalSize: Long = 0
+    var isPause = false
     fun writeFile(inputstream: InputStream, filePath: String) {
-        var file = File(filePath)
-        if (file.exists()) {
-            file.delete()
-        }
+        isPause = false
         var fos: FileOutputStream? = null
+        var size = currSize
         try {
-            fos = FileOutputStream(file)
-            var b = ByteArray(1024)
+            fos = FileOutputStream(filePath, true)
+            var b = ByteArray(1024 * 4)
             var len: Int = inputstream.read(b)
             while (len != -1) {
+                if (isPause) {
+                    break
+                }
                 fos.write(b, 0, len)
+                size += len
                 len = inputstream.read(b)
+                println("${(size.toDouble() / totalSize.toDouble()) * 100}   ${len}  ${size}  ${totalSize}")
             }
-
         } catch (e: Exception) {
-
+            println("失败")
         } finally {
+            currSize = File(filePath).length()
+            println("finally ${currSize}")
             inputstream.close()
             fos?.close()
         }
