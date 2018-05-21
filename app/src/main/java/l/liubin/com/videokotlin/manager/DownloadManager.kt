@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Environment
 import android.os.IBinder
 import com.raizlabs.android.dbflow.sql.language.Select
 import l.liubin.com.videokotlin.datebase.DownloadModel
@@ -12,6 +13,7 @@ import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.service.DownloadService
 import l.liubin.com.videokotlin.utils.SingToast
+import java.io.File
 
 /**
  * Created by l on 2018/5/21.
@@ -19,12 +21,16 @@ import l.liubin.com.videokotlin.utils.SingToast
 class DownloadManager {
     lateinit var mContext: Context
     var downloadService: DownloadService? = null
-
     private constructor(context: Context) {
         mContext = context
+        var file = File(downloadPath)
+        if (!file.exists()) {
+            file.mkdirs()
+        }
     }
 
     companion object {
+        val downloadPath = Environment.getExternalStorageDirectory().getPath() + "/VideoKotlin/"
         var instance: DownloadManager? = null
         fun getInstance(context: Context): DownloadManager {
             return instance ?: createInstance(context)?.let {
@@ -39,66 +45,54 @@ class DownloadManager {
         }
     }
 
-    fun stop(url: String) {
-        downloadService?.stop(url)
+    fun stop(model: DownloadModel) {
+        downloadService?.stop(model)
+    }
+
+    fun create(model: DownloadModel) {
+        var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(model.download_url)).querySingle()
+        var curr_model = select ?: model?.let {
+            it.insert()
+            it
+        }
+        start(curr_model)
     }
 
     fun start(model: DownloadModel) {
-        var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(model.download_url)).querySingle()
-        var curr_mode =
-                if (select != null) {
-                    var toast = when (select.state) {
-                        DownloadState.STATE_START -> {
-                            SingToast.showToast(mContext, "正在下载")
-                            return@start
-                        }
-                        DownloadState.STATE_SUCCESS -> {
-                            SingToast.showToast(mContext, "以下载")
-                            return@start
-                        }
-                        else -> "开始下载"
-                    }
-                    SingToast.showToast(mContext, toast)
-                    select
-                } else {
-                    model.insert()
-                    model
-                }
-        var intent = Intent(mContext, DownloadService::class.java)
-        intent.putExtra(DownloadService.INTENT_DOWNLOAD, model)
-        mContext.startService(intent)
-        downloadService?.start(curr_mode)
-                ?: mContext.bindService(intent, object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
-            }
-
-            override fun onServiceConnected(name: ComponentName?, service: IBinder) {
-                var anget = service as DownloadService.MyAnget
-                downloadService = anget.getService()
-                downloadService?.start(curr_mode)
-                mContext.unbindService(this)
-            }
-
-        }, Context.BIND_AUTO_CREATE)
+        getService {
+            it.start(model)
+        }
     }
 
     fun listenerProgrest(model: DownloadModel, downloadListener: DownloadListener) {
+        getService {
+            it.addListener(model.download_url, downloadListener)
+        }
+    }
+
+    fun getService(less: (DownloadService) -> Unit) {
         var intent = Intent(mContext, DownloadService::class.java)
-        intent.putExtra(DownloadService.INTENT_DOWNLOAD, model)
         mContext.startService(intent)
-        downloadService?.addListener(model.download_url, downloadListener)
+        downloadService?.also(less)
                 ?: mContext.bindService(intent, object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
-            }
+                    override fun onServiceDisconnected(name: ComponentName?) {
+                    }
 
-            override fun onServiceConnected(name: ComponentName?, service: IBinder) {
-                var anget = service as DownloadService.MyAnget
-                downloadService = anget.getService()
-                downloadService?.addListener(model.download_url, downloadListener)
-                mContext.unbindService(this)
-            }
+                    override fun onServiceConnected(name: ComponentName?, service: IBinder) {
+                        var anget = service as DownloadService.MyAnget
+                        downloadService = anget.getService()
+                        less(downloadService!!)
+                        mContext.unbindService(this)
+                    }
 
-        }, Context.BIND_AUTO_CREATE)
+                }, Context.BIND_AUTO_CREATE)
+    }
 
+    fun clearListener() {
+        downloadService?.clearListener()
+    }
+
+    fun remove(model: DownloadModel) {
+        downloadService?.remoTask(model)
     }
 }

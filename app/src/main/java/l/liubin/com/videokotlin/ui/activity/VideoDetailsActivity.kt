@@ -65,7 +65,6 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         content.setSpan(ForegroundColorSpan(Color.parseColor("#aaaaaa")), data.data?.author?.name?.length!!, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_usertag.text = content
         GlideUils.loadImg(mContext, data.data?.author?.icon!!, riv_img)
-        RxPermissionsUtils.requestPermissions(mContext, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) { b: Boolean -> SingToast.showToast(mContext, "$b") }
         tv_download.setOnClickListener { _ ->
             var model = DownloadModel()
             model.download_url = data.data?.playUrl

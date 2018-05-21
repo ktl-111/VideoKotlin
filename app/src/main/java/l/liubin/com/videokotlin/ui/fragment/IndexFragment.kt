@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.fragment
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -49,6 +50,7 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
 
 
     override fun initData() {
+        RxPermissionsUtils.requestPermissions(mContext, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ImmersionBar.setTitleBar(mContext as BaseActivity, tb_index_bar)
         mAdapter = object : RecyclerArrayAdapter<Any>(mContext) {
             val TYPE_BANNER: Int = 1.shl(1)

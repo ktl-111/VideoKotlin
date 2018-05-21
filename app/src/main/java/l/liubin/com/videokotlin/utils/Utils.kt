@@ -7,6 +7,7 @@ import android.widget.EditText
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import l.liubin.com.videokotlin.App.MyApplication
 import l.liubin.com.videokotlin.R
+import java.text.DecimalFormat
 
 /**
  * Created by l on 2018/5/9.
@@ -35,6 +36,14 @@ fun openKeyBord(mEditText: EditText, mContext: Context) {
 fun closeKeyBord(mEditText: EditText, mContext: Context) {
     val imm = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(mEditText.windowToken, 0)
+}
+
+fun Double.toDoubleNumber(): String {
+    var str = DecimalFormat("#.00").format(this)
+    if (this < 1) {
+        str = "0$str"
+    }
+    return str
 }
 
 abstract class AdapterListener {

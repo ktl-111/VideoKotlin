@@ -15,6 +15,7 @@ import l.liubin.com.videokotlin.datebase.DownloadModel
 import l.liubin.com.videokotlin.datebase.DownloadModel_Table
 import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
+import l.liubin.com.videokotlin.mvp.base.BaseObserver
 import okhttp3.ResponseBody
 import okhttp3.internal.http.HttpHeaders
 import retrofit2.Response
@@ -22,6 +23,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.net.SocketException
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor
@@ -32,13 +34,9 @@ import java.util.concurrent.TimeUnit
  */
 class DownloadService : Service() {
     lateinit var mExecutor: ThreadPoolExecutor
-    var mDisposable = LinkedHashMap<String, Disposable>()
     var listeners = LinkedHashMap<String, DownloadListener>()
-
-    companion object {
-        val INTENT_DOWNLOAD = "intent_download"
-    }
-
+    var states = LinkedHashMap<String, DownloadModel>()
+    var mDisposables = LinkedHashMap<String, Disposable>()
     override fun onCreate() {
         var unit = TimeUnit.MILLISECONDS
         var workQueue = LinkedBlockingDeque<Runnable>()
@@ -58,8 +56,10 @@ class DownloadService : Service() {
     }
 
     fun start(model: DownloadModel) {
-        model.state = DownloadState.STATE_START
+        model.state = DownloadState.STATE_WAIT
         model.update()
+        senBroadcast(model)
+        states[model.download_url] = model
         var observable: Observable<Response<ResponseBody>> = if (model.currlength == 0.toLong()) {
             ApiEngine.apiEngine.getApiService().check(model.download_url)
         } else {
@@ -68,6 +68,7 @@ class DownloadService : Service() {
 
         observable
                 .map {
+                    model.state = DownloadState.STATE_START
                     if (model.currlength == 0.toLong()) {
                         model.totallength = HttpHeaders.contentLength(it.headers())
                         val file = File(model.savepath)
@@ -75,7 +76,8 @@ class DownloadService : Service() {
                             file.delete()
                         }
                     }
-
+                    model.update()
+                    senBroadcast(model)
                     writeFile(it.body()?.byteStream()!!, model)
                     ""
                 }
@@ -92,7 +94,7 @@ class DownloadService : Service() {
                     }
 
                     override fun onSubscribe(d: Disposable) {
-                        mDisposable.put(model.download_url, d)
+                        mDisposables.put(model.download_url, d)
                     }
                 })
     }
@@ -103,32 +105,62 @@ class DownloadService : Service() {
             fos = FileOutputStream(model.savepath, true)
             var b = ByteArray(1024 * 10)
             var len: Int = inputstream.read(b)
+            println("${model.title}  ${Thread.currentThread()}")
+            model.state = DownloadState.STATE_DOWNLOAD
+            model.update()
             while (len != -1) {
+                if (states[model.download_url]?.state == DownloadState.STATE_PAUSE) {
+                    break
+                }
                 fos.write(b, 0, len)
                 len = inputstream.read(b)
                 model.currlength += len
-                println("${(model.currlength.toDouble() / model.totallength.toDouble()) * 100}   ${Thread.currentThread()}")
-                progress(model)
+                senBroadcast(model)
             }
-            model.state = DownloadState.STATE_SUCCESS
         } catch (e: IOException) {
             model.state = DownloadState.STATE_FAILED
         } finally {
             model.currlength = File(model.savepath).length()
+            if (model.currlength == model.totallength) {
+                model.state = DownloadState.STATE_SUCCESS
+            }
             model.update()
+            senBroadcast(model)
             inputstream.close()
             fos?.close()
         }
     }
 
-    private fun progress(model: DownloadModel) {
+    private fun senBroadcast(model: DownloadModel) {
+        when (model.state) {
+            DownloadState.STATE_PAUSE -> sendMainThread(model, DownloadListener::onPause)
+            DownloadState.STATE_START -> sendMainThread(model, DownloadListener::onStartDownload)
+            DownloadState.STATE_SUCCESS -> sendMainThread(model, DownloadListener::onFinishDownload)
+            DownloadState.STATE_FAILED -> sendMainThread(model, DownloadListener::onFiled)
+            DownloadState.STATE_DOWNLOAD -> sendMainThread(model, DownloadListener::onProgress)
+            DownloadState.STATE_WAIT -> sendMainThread(model, DownloadListener::onWait)
+            DownloadState.STATE_STOP -> sendMainThread(model, DownloadListener::onStop)
+        }
+    }
+
+    private fun sendMainThread(model: DownloadModel, less: DownloadListener.(DownloadModel) -> Unit) {
         Observable.just(model)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { model ->
-                    listeners[model.download_url]?.apply {
-                        onProgress(model.currlength)
-                    }
+                    listeners[model.download_url]?.less(model)
                 }
+    }
+
+    fun clearListener() {
+        listeners?.clear()
+    }
+
+    fun remoTask(model: DownloadModel) {
+        mDisposables[model.download_url]?.also {
+            senBroadcast(model)
+            it.dispose()
+            mDisposables.remove(model.download_url)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -139,14 +171,7 @@ class DownloadService : Service() {
         fun getService(): DownloadService = this@DownloadService
     }
 
-    fun stop(url: String) {
-        mDisposable[url]?.apply {
-            dispose()
-            var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(url)).querySingle()
-            select?.apply {
-                state = DownloadState.STATE_PAUSE
-                update()
-            }
-        }
+    fun stop(model: DownloadModel) {
+        states[model.download_url]?.state = DownloadState.STATE_PAUSE
     }
 }
