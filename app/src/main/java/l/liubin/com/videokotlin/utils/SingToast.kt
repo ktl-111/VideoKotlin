@@ -9,12 +9,12 @@ import android.widget.Toast
  */
 
 object SingToast {
-    var instance: Toast? = null
+    private var instance: Toast? = null
 
     fun getInstance(context: Context, msg: String): Toast {
         instance?.let { instance?.setText(msg) }
                 ?: createToast(context, msg)
-                        ?.let { instance = it }
+                ?.let { instance = it }
         return instance!!
     }
 

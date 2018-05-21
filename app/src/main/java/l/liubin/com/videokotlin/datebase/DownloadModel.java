@@ -28,16 +28,20 @@ public class DownloadModel extends BaseModel implements Parcelable {
     public String img_url;
 
     @Column
-    public String savepath;
+    public String savepath ;
 
     @Column
-    public long currlength;
+    public long currlength = 0;
 
     @Column
-    public long totallength;
+    public long totallength = 0;
 
     @Column
     public int state;
+
+    public DownloadModel() {
+
+    }
 
     protected DownloadModel(Parcel in) {
         id = in.readInt();
