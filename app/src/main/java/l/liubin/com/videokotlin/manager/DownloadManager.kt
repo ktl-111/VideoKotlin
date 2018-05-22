@@ -21,6 +21,7 @@ import java.io.File
 class DownloadManager {
     lateinit var mContext: Context
     var downloadService: DownloadService? = null
+
     private constructor(context: Context) {
         mContext = context
         var file = File(downloadPath)
@@ -51,7 +52,35 @@ class DownloadManager {
 
     fun create(model: DownloadModel) {
         var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(model.download_url)).querySingle()
-        var curr_model = select ?: model?.let {
+        var curr_model = select?.let {
+            when (it.state) {
+                DownloadState.STATE_START -> {
+                    SingToast.showToast(mContext, "正在下载")
+                    return@create
+                }
+                DownloadState.STATE_SUCCESS -> {
+                    SingToast.showToast(mContext, "以下载")
+                    return@create
+                }
+                DownloadState.STATE_DOWNLOAD -> {
+                    SingToast.showToast(mContext, "正在下载")
+                    return@create
+                }
+                DownloadState.STATE_PAUSE -> {
+                    SingToast.showToast(mContext, "开始下载")
+                }
+                DownloadState.STATE_FAILED -> {
+                    SingToast.showToast(mContext, "开始下载")
+                }
+                DownloadState.STATE_WAIT -> {
+                    SingToast.showToast(mContext, "开始下载")
+                }
+                DownloadState.STATE_STOP -> {
+                    SingToast.showToast(mContext, "开始下载")
+                }
+            }
+            it
+        } ?: model?.let {
             it.insert()
             it
         }
@@ -60,6 +89,7 @@ class DownloadManager {
 
     fun start(model: DownloadModel) {
         getService {
+            SingToast.showToast(mContext, "开始下载")
             it.start(model)
         }
     }
@@ -75,17 +105,17 @@ class DownloadManager {
         mContext.startService(intent)
         downloadService?.also(less)
                 ?: mContext.bindService(intent, object : ServiceConnection {
-                    override fun onServiceDisconnected(name: ComponentName?) {
-                    }
+            override fun onServiceDisconnected(name: ComponentName?) {
+            }
 
-                    override fun onServiceConnected(name: ComponentName?, service: IBinder) {
-                        var anget = service as DownloadService.MyAnget
-                        downloadService = anget.getService()
-                        less(downloadService!!)
-                        mContext.unbindService(this)
-                    }
+            override fun onServiceConnected(name: ComponentName?, service: IBinder) {
+                var anget = service as DownloadService.MyAnget
+                downloadService = anget.getService()
+                less(downloadService!!)
+                mContext.unbindService(this)
+            }
 
-                }, Context.BIND_AUTO_CREATE)
+        }, Context.BIND_AUTO_CREATE)
     }
 
     fun clearListener() {

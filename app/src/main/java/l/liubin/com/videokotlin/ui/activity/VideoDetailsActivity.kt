@@ -1,10 +1,8 @@
 package l.liubin.com.videokotlin.ui.activity
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Environment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableString
@@ -30,7 +28,10 @@ import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView
-import l.liubin.com.videokotlin.utils.*
+import l.liubin.com.videokotlin.utils.DisplayManager
+import l.liubin.com.videokotlin.utils.GlideUils
+import l.liubin.com.videokotlin.utils.SingToast
+import l.liubin.com.videokotlin.utils.durationFormat
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
 
@@ -70,10 +71,9 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
             model.download_url = data.data?.playUrl
             model.title = data.data?.title
             model.img_url = data.data?.cover?.feed
-            model.savepath = Environment.getExternalStorageDirectory().getPath() + "/VideoKotlin/" + model.title + ".mp4"
+            model.savepath = "${DownloadManager.downloadPath}${data.data?.title}.mp4"
             DownloadManager.getInstance(mContext)
-                    .start(model)
-
+                    .create(model)
         }
     }
 

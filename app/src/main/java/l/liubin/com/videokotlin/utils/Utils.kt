@@ -1,13 +1,17 @@
 package l.liubin.com.videokotlin.utils
 
 import android.content.Context
+import android.content.Intent
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import l.liubin.com.videokotlin.App.MyApplication
 import l.liubin.com.videokotlin.R
+import java.io.File
 import java.text.DecimalFormat
+
 
 /**
  * Created by l on 2018/5/9.
@@ -19,6 +23,16 @@ object Utils {
     }
 
     fun getColor(resId: Int): Int = ContextCompat.getColor(MyApplication.context, resId)
+}
+
+fun openVideo(context: Context, path: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    val file = File(path)
+    val uri = FileProvider.getUriForFile(context, "l.liubin.com.fileprovider", file)
+    intent.setDataAndType(uri, "video/*")
+
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    context.startActivity(intent)
 }
 
 /**

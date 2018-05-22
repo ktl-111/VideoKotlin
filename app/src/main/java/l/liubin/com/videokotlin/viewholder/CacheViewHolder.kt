@@ -1,7 +1,6 @@
 package l.liubin.com.videokotlin.viewholder
 
 import android.content.Context
-import android.opengl.GLUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,6 +14,7 @@ import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.utils.GlideUils
+import l.liubin.com.videokotlin.utils.openVideo
 import l.liubin.com.videokotlin.utils.toDoubleNumber
 
 /**
@@ -65,7 +65,7 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
                         DownloadManager.getInstance(mContext).remove(it)
                     }
                     DownloadState.STATE_SUCCESS -> {
-
+                        openVideo(mContext, it.savepath)
                     }
                 }
                 it.update()
@@ -112,7 +112,7 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
     }
 
     fun setState(model: DownloadModel, errorinfo: String = "") {
-        if (iv_img.tag != model.download_url&&tv_progress.tag != model.download_url) {
+        if (iv_img.tag != model.download_url && tv_progress.tag != model.download_url) {
             return
         }
         when (model.state) {
@@ -141,7 +141,7 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
                 tv_progress.text = "暂停下载"
             }
             DownloadState.STATE_SUCCESS -> {
-                iv_state.visibility = View.INVISIBLE
+                iv_state.setBackgroundResource(R.mipmap.ic_launcher)
                 tv_progress.text = "下载完成"
             }
         }
