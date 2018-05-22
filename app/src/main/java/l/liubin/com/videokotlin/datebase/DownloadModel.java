@@ -8,6 +8,8 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import l.liubin.com.videokotlin.download.DownloadState;
+
 /**
  * Created by steam_lb on 2018/5/20/020.
  */
@@ -28,7 +30,7 @@ public class DownloadModel extends BaseModel implements Parcelable {
     public String img_url;
 
     @Column
-    public String savepath ;
+    public String savepath;
 
     @Column
     public long currlength = 0;
@@ -37,7 +39,7 @@ public class DownloadModel extends BaseModel implements Parcelable {
     public long totallength = 0;
 
     @Column
-    public int state;
+    public int state = DownloadState.INSTANCE.getSTATE_WAIT();
 
     public DownloadModel() {
 

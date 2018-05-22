@@ -1,9 +1,11 @@
 package l.liubin.com.videokotlin.ui.activity
 
-import android.content.DialogInterface
 import android.os.Environment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewGroup
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
@@ -17,9 +19,12 @@ import kotlinx.android.synthetic.main.activity_cache.*
 import kotlinx.android.synthetic.main.include_title.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.datebase.DownloadModel
+import l.liubin.com.videokotlin.datebase.DownloadModel_Table
+import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.Utils
+import l.liubin.com.videokotlin.utils.openVideo
 import l.liubin.com.videokotlin.viewholder.CacheViewHolder
 import java.io.File
 
@@ -30,7 +35,10 @@ class CacheActivity : BaseActivity() {
     lateinit var mAdapter: RecyclerArrayAdapter<DownloadModel>
     override fun getResId(): Int = R.layout.activity_cache
     override fun initData() {
-        tv_include_title.text = Utils.getStringFromResources(R.string.my_cache)
+        var str = SpannableString("${Utils.getStringFromResources(R.string.my_cache)}(长按删除)")
+
+        str.setSpan(RelativeSizeSpan(0.7f), Utils.getStringFromResources(R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_include_title.text = str
         erv_cache_list.setLayoutManager(LinearLayoutManager(mContext))
         mAdapter = object : RecyclerArrayAdapter<DownloadModel>(mContext) {
             override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -93,27 +101,33 @@ class CacheActivity : BaseActivity() {
         model.title = title
         model.img_url = imgUrl
         model.savepath = "${Environment.getExternalStorageDirectory().getPath()}/VideoKotlin/$title.apk"
-        DownloadManager.getInstance(mContext).create(model)
+        DownloadManager.getInstance(mContext).create(mContext,model)
     }
 
     override fun initEvent() {
+        mAdapter.setOnItemClickListener { position ->
+            var item = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(mAdapter.getItem(position).download_url)).querySingle()
+            item?.state?.also {
+                if (it == DownloadState.STATE_SUCCESS) {
+                    openVideo(mContext, item.savepath)
+                }
+            }
+        }
         mAdapter.setOnItemLongClickListener { position ->
             AlertDialog.Builder(mContext).setTitle("提示")
                     .setMessage("是否删除")
-                    .setPositiveButton("是", object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            var item = mAdapter.getItem(position)
-                            item.delete()
-                            var file = File(item.savepath)
-                            if (file.exists()) {
-                                file.delete()
-                            }
-                            mAdapter.remove(item)
+                    .setPositiveButton("是") { _, _ ->
+                        var item = mAdapter.getItem(position)
+                        item.delete()
+                        var file = File(item.savepath)
+                        if (file.exists()) {
+                            file.delete()
                         }
-                    })
+                        mAdapter.remove(item)
+                    }
+                    .setNegativeButton("否") { dialog, _ -> dialog.dismiss() }
                     .setOnCancelListener { dialog -> dialog.dismiss() }
                     .show()
-
             true
         }
 

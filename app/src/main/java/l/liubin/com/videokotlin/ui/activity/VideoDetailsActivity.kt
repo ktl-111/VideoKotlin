@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableString
@@ -27,6 +28,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
+import com.shuyu.gsyvideoplayer.utils.NetworkUtils
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_videodetails.*
@@ -36,10 +38,7 @@ import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView
-import l.liubin.com.videokotlin.utils.DisplayManager
-import l.liubin.com.videokotlin.utils.GlideUils
-import l.liubin.com.videokotlin.utils.SingToast
-import l.liubin.com.videokotlin.utils.durationFormat
+import l.liubin.com.videokotlin.utils.*
 import l.liubin.com.videokotlin.viewholder.VideoDetailsContentViewHolder
 import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
 
@@ -47,6 +46,11 @@ import l.liubin.com.videokotlin.viewholder.VideoDetailsTitleViewHolder
  * Created by l on 2018/5/15.
  */
 class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerArrayAdapter.ItemView {
+    override fun showUrlSize(size: Long) {
+        url_size = size
+    }
+
+    var url_size: Long = 0
     override fun onCreateView(parent: ViewGroup?): View {
         return layoutInflater.inflate(R.layout.itemview_videodetails_info, parent, false)
     }
@@ -81,7 +85,7 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
             model.img_url = data.data?.cover?.feed
             model.savepath = "${DownloadManager.downloadPath}${data.data?.title}.mp4"
             DownloadManager.getInstance(mContext)
-                    .create(model)
+                    .create(mContext, model)
         }
     }
 
@@ -127,6 +131,7 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
     override fun getResId(): Int = R.layout.activity_videodetails
 
     override fun initData() {
+        mPresenter.checkUrl(data.data?.playUrl!!)
         initVideoData()
         erv_videodetails_list.setLayoutManager(LinearLayoutManager(mContext))
         mAdapter = object : RecyclerArrayAdapter<HomeBean.Issue.Item>(mContext) {
@@ -196,6 +201,23 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
                         isPlay = true
                     }
 
+                    override fun onClickStartIcon(url: String?, vararg objects: Any?) {
+                        if (!NetworkUtils.isWifiConnected(mContext)) {
+                            AlertDialog.Builder(mContext)
+                                    .setTitle("提示")
+                                    .setMessage("当前视频流量为${getPrintSize(url_size)}")
+                                    .setPositiveButton("是") { _, _ ->
+                                        gsy_video.startPlayLogic()
+                                    }
+                                    .setNegativeButton("否") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }.setOnCancelListener { dialog ->
+                                dialog.dismiss()
+                            }
+                                    .show()
+                        }
+                    }
+
                     override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
                         super.onQuitFullscreen(url, *objects)
                         mOrientationUtils?.backToProtVideo()
@@ -208,7 +230,9 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
             mOrientationUtils?.resolveByClick()
             gsy_video.startWindowFullscreen(mContext, true, true)
         }
-
+        if (NetworkUtils.isWifiConnected(mContext)) {
+            gsy_video.startPlayLogic()
+        }
     }
 
     override fun initEvent() {

@@ -8,4 +8,5 @@ import l.liubin.com.videokotlin.mvp.base.BaseView
  */
 interface VideoView : BaseView {
     fun showOrtherView(list: ArrayList<HomeBean.Issue.Item>)
+    fun showUrlSize(size:Long)
 }

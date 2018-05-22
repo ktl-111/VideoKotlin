@@ -3,7 +3,6 @@ package l.liubin.com.videokotlin.api
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.hazz.kotlinmvp.mvp.model.bean.TabInfoBean
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -74,13 +73,6 @@ interface Api {
     @Streaming
     @GET
     fun download(@Header("Range") range: String, @Url url: String): Observable<Response<ResponseBody>>
-
-    @GET
-    fun checkGet(@Url url: String): Observable<Response<Void>>
-
-    @HEAD
-    fun checkRangeByHead(@Header("Range") range: String,
-                         @Url url: String): Observable<Response<Void>>
 
     @Streaming
     @GET

@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.manager
 
+import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Environment
 import android.os.IBinder
 import com.raizlabs.android.dbflow.sql.language.Select
+import com.shuyu.gsyvideoplayer.utils.NetworkUtils
 import l.liubin.com.videokotlin.datebase.DownloadModel
 import l.liubin.com.videokotlin.datebase.DownloadModel_Table
 import l.liubin.com.videokotlin.download.DownloadListener
@@ -50,46 +52,59 @@ class DownloadManager {
         downloadService?.stop(model)
     }
 
-    fun create(model: DownloadModel) {
+    fun create(context: Context, model: DownloadModel) {
         var select = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(model.download_url)).querySingle()
-        var curr_model = select?.let {
-            when (it.state) {
-                DownloadState.STATE_START -> {
-                    SingToast.showToast(mContext, "正在下载")
-                    return@create
-                }
-                DownloadState.STATE_SUCCESS -> {
-                    SingToast.showToast(mContext, "以下载")
-                    return@create
-                }
-                DownloadState.STATE_DOWNLOAD -> {
-                    SingToast.showToast(mContext, "正在下载")
-                    return@create
-                }
-                DownloadState.STATE_PAUSE -> {
-                    SingToast.showToast(mContext, "开始下载")
-                }
-                DownloadState.STATE_FAILED -> {
-                    SingToast.showToast(mContext, "开始下载")
-                }
-                DownloadState.STATE_WAIT -> {
-                    SingToast.showToast(mContext, "开始下载")
-                }
-                DownloadState.STATE_STOP -> {
-                    SingToast.showToast(mContext, "开始下载")
-                }
-            }
-            it
-        } ?: model?.let {
+        var curr_model = select ?: model?.let {
             it.insert()
             it
         }
-        start(curr_model)
+        if ((curr_model.state == DownloadState.STATE_PAUSE || curr_model.state == DownloadState.STATE_FAILED || curr_model.state == DownloadState.STATE_WAIT || curr_model.state == DownloadState.STATE_STOP)
+                && !NetworkUtils.isWifiConnected(context)) {
+            AlertDialog.Builder(context)
+                    .setTitle("提示")
+                    .setMessage("当前正处于流量状态,是否需要下载")
+                    .setPositiveButton("是") { _, _ ->
+                        start(curr_model)
+                    }
+                    .setNegativeButton("否") { dialog, _ ->
+                        dialog.dismiss()
+                    }.setOnCancelListener { dialog ->
+                dialog.dismiss()
+            }.setCancelable(true)
+                    .show()
+        } else {
+            start((curr_model))
+        }
     }
 
     fun start(model: DownloadModel) {
+        when (model.state) {
+            DownloadState.STATE_START -> {
+                SingToast.showToast(mContext, "正在下载")
+                return@start
+            }
+            DownloadState.STATE_SUCCESS -> {
+                SingToast.showToast(mContext, "当前视频以下载")
+                return@start
+            }
+            DownloadState.STATE_DOWNLOAD -> {
+                SingToast.showToast(mContext, "正在下载")
+                return@start
+            }
+            DownloadState.STATE_PAUSE -> {
+                SingToast.showToast(mContext, "开始下载")
+            }
+            DownloadState.STATE_FAILED -> {
+                SingToast.showToast(mContext, "开始下载")
+            }
+            DownloadState.STATE_WAIT -> {
+                SingToast.showToast(mContext, "开始下载")
+            }
+            DownloadState.STATE_STOP -> {
+                SingToast.showToast(mContext, "开始下载")
+            }
+        }
         getService {
-            SingToast.showToast(mContext, "开始下载")
             it.start(model)
         }
     }
