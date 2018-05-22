@@ -1,6 +1,7 @@
 package l.liubin.com.videokotlin.ui.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -17,10 +19,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.gyf.barlibrary.BarHide
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.makeramen.roundedimageview.RoundedImageView
+import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.datebase.DownloadModel
@@ -87,6 +95,12 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
     override fun initDataBefore() {
         super.initDataBefore()
         data = intent.getSerializableExtra(INTENT_DATA) as HomeBean.Issue.Item
+        immersionBar
+                .reset()
+                .statusBarDarkFont(true)
+                .statusBarAlpha(0.0f)
+                .hideBar(BarHide.FLAG_HIDE_STATUS_BAR)
+                .init()
     }
 
     override fun onSuccess(msg: String) {
@@ -113,6 +127,7 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
     override fun getResId(): Int = R.layout.activity_videodetails
 
     override fun initData() {
+        initVideoData()
         erv_videodetails_list.setLayoutManager(LinearLayoutManager(mContext))
         mAdapter = object : RecyclerArrayAdapter<HomeBean.Issue.Item>(mContext) {
             override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -156,11 +171,92 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         mPresenter.getOrtherData(data?.data?.id!!)
     }
 
+    var mOrientationUtils: OrientationUtils? = null
+    private fun initVideoData() {
+        mOrientationUtils = OrientationUtils(this, gsy_video)
+        gsy_video.isRotateViewAuto = false
+
+        var imagView = ImageView(mContext)
+        GlideUils.loadImg(mContext, data.data?.cover?.feed!!, imagView)
+        var option = GSYVideoOptionBuilder()
+        option.setThumbImageView(imagView)
+                .setIsTouchWiget(true)
+                .setRotateViewAuto(false)
+                .setLockLand(false)
+                .setAutoFullWithSize(true)
+                .setShowFullAnimation(false)
+                .setNeedLockFull(true)
+                .setUrl(data.data?.playUrl)
+                .setCacheWithPlay(false)
+                .setVideoTitle(data.data?.videoTitle)
+                .setVideoAllCallBack(object : GSYSampleCallBack() {
+                    override fun onPrepared(url: String?, vararg objects: Any?) {
+                        super.onPrepared(url, *objects)
+                        mOrientationUtils?.isEnable = true
+                        isPlay = true
+                    }
+
+                    override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
+                        super.onQuitFullscreen(url, *objects)
+                        mOrientationUtils?.backToProtVideo()
+                    }
+                }).setLockClickListener { view, lock ->
+            mOrientationUtils?.isEnable = !lock
+        }.build(gsy_video)
+
+        gsy_video.fullscreenButton.setOnClickListener {
+            mOrientationUtils?.resolveByClick()
+            gsy_video.startWindowFullscreen(mContext, true, true)
+        }
+
+    }
+
     override fun initEvent() {
         mAdapter.setOnItemClickListener { position ->
             var item = mAdapter.getItem(position)
             startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
         }
-
     }
+
+    private var isPlay: Boolean = false
+    private var isPause: Boolean = false
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        if (isPlay && !isPause) {
+            gsy_video.onConfigurationChanged(this, newConfig, mOrientationUtils)
+        }
+    }
+
+    override fun onBackPressed() {
+        mOrientationUtils?.backToProtVideo()
+        if (GSYVideoManager.backFromWindowFull(mContext)) {
+            return
+        }
+        super.onBackPressed()
+    }
+
+    override fun onPause() {
+        getCurrPlay().onVideoPause()
+        super.onPause()
+        isPause = true
+    }
+
+    override fun onResume() {
+        getCurrPlay().onVideoResume(false)
+        super.onResume()
+        isPause = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isPlay) {
+            getCurrPlay().release()
+        }
+        mOrientationUtils?.releaseListener()
+    }
+
+    fun getCurrPlay(): GSYVideoPlayer {
+        return gsy_video.fullWindowPlayer?.let { it } ?: gsy_video
+    }
+
 }

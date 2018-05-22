@@ -75,4 +75,6 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
 
+    compile 'com.shuyu:GSYVideoPlayer:4.1.3'
+
 }
