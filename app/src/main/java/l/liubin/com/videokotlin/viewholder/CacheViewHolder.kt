@@ -41,27 +41,27 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
             model?.also {
                 when (it.state) {
                     DownloadState.STATE_START -> {
-                        it.state = DownloadState.STATE_PAUSE
+//                        it.state = DownloadState.STATE_PAUSE
                         DownloadManager.getInstance(mContext).stop(it)
                     }
                     DownloadState.STATE_FAILED -> {
-                        it.state = DownloadState.STATE_START
+//                        it.state = DownloadState.STATE_START
                         DownloadManager.getInstance(mContext).start(it)
                     }
                     DownloadState.STATE_PAUSE -> {
-                        it.state = DownloadState.STATE_START
+//                        it.state = DownloadState.STATE_START
                         DownloadManager.getInstance(mContext).start(it)
                     }
                     DownloadState.STATE_STOP -> {
-                        it.state = DownloadState.STATE_START
+//                        it.state = DownloadState.STATE_START
                         DownloadManager.getInstance(mContext).start(it)
                     }
                     DownloadState.STATE_DOWNLOAD -> {
-                        it.state = DownloadState.STATE_PAUSE
+//                        it.state = DownloadState.STATE_PAUSE
                         DownloadManager.getInstance(mContext).stop(it)
                     }
                     DownloadState.STATE_WAIT -> {
-                        it.state = DownloadState.STATE_STOP
+//                        it.state = DownloadState.STATE_STOP
                         DownloadManager.getInstance(mContext).remove(it)
                     }
                     DownloadState.STATE_SUCCESS -> {
@@ -118,7 +118,7 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
         when (model.state) {
             DownloadState.STATE_STOP -> {
                 iv_state.setBackgroundResource(R.mipmap.start)
-                tv_progress.text = "已暂停下载"
+                tv_progress.text = "已停止下载"
             }
             DownloadState.STATE_DOWNLOAD -> {
                 iv_state.setBackgroundResource(R.mipmap.pause)

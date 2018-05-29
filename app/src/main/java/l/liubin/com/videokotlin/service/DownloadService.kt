@@ -105,11 +105,11 @@ class DownloadService : Service() {
             fos = FileOutputStream(model.savepath, true)
             var b = ByteArray(1024 * 10)
             var len: Int = inputstream.read(b)
-            println("${model.title}  ${Thread.currentThread()}")
             model.state = DownloadState.STATE_DOWNLOAD
             model.update()
             while (len != -1) {
                 if (states[model.download_url]?.state == DownloadState.STATE_PAUSE) {
+                    model.state = DownloadState.STATE_PAUSE
                     break
                 }
                 fos.write(b, 0, len)
@@ -157,6 +157,8 @@ class DownloadService : Service() {
 
     fun remoTask(model: DownloadModel) {
         mDisposables[model.download_url]?.also {
+            model.state = DownloadState.STATE_STOP
+            model.update()
             senBroadcast(model)
             it.dispose()
             mDisposables.remove(model.download_url)
@@ -172,6 +174,8 @@ class DownloadService : Service() {
     }
 
     fun stop(model: DownloadModel) {
-        states[model.download_url]?.state = DownloadState.STATE_PAUSE
+        states[model.download_url]?.also {
+            it.state = DownloadState.STATE_PAUSE
+        }
     }
 }

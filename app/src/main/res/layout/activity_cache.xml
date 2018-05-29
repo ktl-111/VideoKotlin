@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="addDownload"
-        android:text="download"
-        android:visibility="gone"/>
+        android:text="Test Download(请在WIFI环境下点击)"/>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/erv_cache_list"
