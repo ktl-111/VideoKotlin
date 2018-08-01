@@ -80,10 +80,10 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         GlideUils.loadImg(mContext, data.data?.author?.icon!!, riv_img)
         tv_download.setOnClickListener { _ ->
             var model = DownloadModel()
-            model.download_url = data.data?.playUrl
-            model.title = data.data?.title
-            model.img_url = data.data?.cover?.feed
-            model.savepath = "${DownloadManager.downloadPath}${data.data?.title}.mp4"
+            model.download_url = data.data?.playUrl//下载url
+            model.title = data.data?.title//下载的title
+            model.img_url = data.data?.cover?.feed//封面图地址
+            model.savepath = "${DownloadManager.downloadPath}${data.data?.title}.mp4"//保存路径
             DownloadManager.getInstance(mContext)
                     .create(mContext, model)
         }

@@ -23,7 +23,6 @@ open class BaseModel {
             if (isDelay) {
                 obser = observer.delay(delayTime, TimeUnit.MILLISECONDS)
             }
-
             obser.compose(RxUtils.rxSchedulerHelper())
                     .subscribe(baseObserver)
         }

@@ -11,5 +11,4 @@ class HotModel:BaseModel() {
     fun getList(url:String,baseObserver: BaseObserver<HomeBean.Issue>){
         universal(mApiService.getIssueData(url),baseObserver)
     }
-
 }

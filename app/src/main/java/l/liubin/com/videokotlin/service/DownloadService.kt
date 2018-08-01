@@ -61,8 +61,10 @@ class DownloadService : Service() {
         senBroadcast(model)
         states[model.download_url] = model
         var observable: Observable<Response<ResponseBody>> = if (model.currlength == 0.toLong()) {
+            //第一次下载,直接拿
             ApiEngine.apiEngine.getApiService().check(model.download_url)
         } else {
+            //第二次下载,要加range
             ApiEngine.apiEngine.getApiService().download("bytes=${model.currlength}-${model.totallength}", model.download_url)
         }
 
@@ -108,18 +110,19 @@ class DownloadService : Service() {
             model.state = DownloadState.STATE_DOWNLOAD
             model.update()
             while (len != -1) {
-                if (states[model.download_url]?.state == DownloadState.STATE_PAUSE) {
+                if (states[model.download_url]?.state == DownloadState.STATE_PAUSE) {//当前状态如果是暂停就break
                     model.state = DownloadState.STATE_PAUSE
                     break
                 }
                 fos.write(b, 0, len)
                 len = inputstream.read(b)
                 model.currlength += len
+                //通知更新
                 senBroadcast(model)
             }
         } catch (e: IOException) {
             model.state = DownloadState.STATE_FAILED
-        } finally {
+        } finally {//最后finally的时候记录当前文件长度,以及更新数据库
             model.currlength = File(model.savepath).length()
             if (model.currlength == model.totallength) {
                 model.state = DownloadState.STATE_SUCCESS
