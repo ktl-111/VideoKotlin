@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gyf.barlibrary.ImmersionBar
+import l.liubin.com.videokotlin.App.MyApplication
+import l.liubin.com.videokotlin.utils.setCustomDensity
 import kotlin.properties.Delegates
 
 /**
@@ -16,6 +18,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCustomDensity(this, MyApplication.context as MyApplication)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(getResId())
         immersionBar = ImmersionBar.with(this)

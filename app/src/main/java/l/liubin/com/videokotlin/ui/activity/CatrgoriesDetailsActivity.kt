@@ -1,6 +1,7 @@
 package l.liubin.com.videokotlin.ui.activity
 
 import android.content.Intent
+import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
@@ -96,11 +97,9 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
             var item = mAdapter.getItem(position)
             startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
         }
-
-
-
         toolbar.setNavigationOnClickListener { _ -> finish() }
-        appbar_layout.addOnOffsetChangedListener { _, verticalOffset ->
+        //由于该方法有两种类的参数,而这两种类的参数又不一样,所以要注明是哪个类
+        appbar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             var offset = Math.abs(verticalOffset).toDouble() / dHeight
 //            var hex = Integer.toHexString((Integer.parseInt("4D", 16).toDouble() * offset).toInt()).toUpperCase()
 //            if (hex.length == 1) {
@@ -109,6 +108,6 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
 //            hex = "${hex}000000"
 //            println(hex)
             blur_view.setBlurRadius(dip2px(mContext, 10f).toFloat() * offset.toFloat())
-        }
+        })
     }
 }

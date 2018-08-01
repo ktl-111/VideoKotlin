@@ -126,16 +126,16 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
         erv_index_list.setRefreshListener(this)
         erv_index_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                (1..10)
-                        .takeWhile { it >= 4 }
-                        .forEach { println(it) }
+//                (1..10)
+//                        .takeWhile { it >= 4 }
+//                        .forEach { println(it) }
                 if (mAdapter.allData.size > 0) {
                     var manager = recyclerView.layoutManager as LinearLayoutManager
                     var postition = manager.findFirstCompletelyVisibleItemPosition()
                     if (postition >= 0) {
                         var item = mAdapter.getItem(postition)
                         if (item is HomeBean.Issue.Item) {
-                            var view = manager.findViewByPosition(postition)
+                            var view = manager.findViewByPosition(postition)!!
                             var loca: IntArray = kotlin.IntArray(2)
                             view.getLocationOnScreen(loca)
                             if (isShowTitle) {

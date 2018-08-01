@@ -16,7 +16,7 @@ import java.util.*
 class CatrgoriesPresenter(mView: CatrgoriesView) : BasePresenter<CatrgoriesView, CatrgoriesModel>(mView) {
     fun getCatrgories(context: Context) {
         var function = Function<ArrayList<CategoryBean>, ArrayList<CategoryBean>> { itemList ->
-            itemList.forEach { it.imgHeight = Random().nextInt(dip2px(context, 40f)) + 630 }
+            itemList.forEach { it.imgHeight = (Random().nextInt(dip2px(context,40f)) +context.resources.displayMetrics.heightPixels*0.3).toInt() }
             itemList
         }
         var observer = object : BaseObserver<ArrayList<CategoryBean>>(this@CatrgoriesPresenter, mView!!) {

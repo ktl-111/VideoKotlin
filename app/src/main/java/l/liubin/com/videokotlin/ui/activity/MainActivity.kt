@@ -86,7 +86,7 @@ class MainActivity : BaseActivity() {
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_mine -> {
-                    mMineFragment?.let { beginTransaction.show(mMineFragment) }
+                    mMineFragment?.let { beginTransaction.show(it) }
                             ?: MineFragment()?.let {
                                 mMineFragment = it
                                 beginTransaction.add(R.id.fl_home_content, it, TAG_MINE)

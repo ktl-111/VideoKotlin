@@ -1,7 +1,10 @@
 package l.liubin.com.videokotlin.utils
 
+import android.app.Activity
+import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +21,7 @@ import java.text.DecimalFormat
  * Created by l on 2018/5/9.
  */
 object Utils {
+
     fun getStringFromResources(resId: Int, vararg format: Any?): String {
         return format?.let { MyApplication.context.resources.getString(resId, format) }
                 ?: MyApplication.context.resources.getString(resId)
@@ -59,6 +63,38 @@ fun getPrintSize(size: Long): String {
         value = BigDecimal(value / 1024).setScale(2, BigDecimal.ROUND_DOWN).toDouble()
         return value.toString() + "GB"
     }
+}
+
+var sNoncompatDensity: Float = 0.0f
+var sNoncompatScaledDensity: Float = 0.0f
+fun setCustomDensity(activity: Activity, application: MyApplication) {
+    var metrics = application.resources.displayMetrics
+    if (sNoncompatDensity == 0.0f) {
+        sNoncompatDensity = metrics.density
+        sNoncompatScaledDensity = metrics.scaledDensity
+        application.registerComponentCallbacks(object : ComponentCallbacks {
+            override fun onLowMemory() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onConfigurationChanged(newConfig: Configuration?) {
+                if (newConfig != null && newConfig.fontScale > 0) {
+                    sNoncompatScaledDensity = application.resources.displayMetrics.scaledDensity
+                }
+            }
+        })
+    }
+    var density: Float = (metrics.widthPixels / 360).toFloat()
+    var scaleDensity = density * (sNoncompatScaledDensity / sNoncompatDensity)
+    var dpi: Int = (160 * density).toInt()
+    metrics.density = density
+    metrics.scaledDensity = scaleDensity
+    metrics.densityDpi = dpi
+    var activityMetrics = activity.resources.displayMetrics
+    activityMetrics.densityDpi = dpi
+    activityMetrics.density = density
+    activityMetrics.scaledDensity = scaleDensity
+
 }
 
 /**
