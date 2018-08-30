@@ -10,9 +10,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import com.example.base.MyApplication
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
-import l.liubin.com.videokotlin.R
 import java.io.File
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -23,12 +20,12 @@ import java.text.DecimalFormat
  */
 object Utils {
 
-    fun getStringFromResources(resId: Int, vararg format: Any?): String {
-        return format?.let { MyApplication.context.resources.getString(resId, format) }
-                ?: MyApplication.context.resources.getString(resId)
+    fun getStringFromResources(context: Context, resId: Int, vararg format: Any?): String {
+        return format?.let { context.resources.getString(resId, format) }
+                ?: context.resources.getString(resId)
     }
 
-    fun getColor(resId: Int): Int = ContextCompat.getColor(MyApplication.context, resId)
+    fun getColor(context: Context, resId: Int): Int = ContextCompat.getColor(context, resId)
 }
 
 fun openVideo(context: Context, path: String) {
@@ -130,27 +127,27 @@ abstract class AdapterListener {
     open fun onErrorClick() {}
 }
 
-fun initAdapter(adapter: RecyclerArrayAdapter<*>, listener: AdapterListener) {
-    adapter.setMore(R.layout.view_loadmore, object : RecyclerArrayAdapter.OnMoreListener {
-        override fun onMoreShow() {
-            listener.onMoreShow()
-        }
-
-        override fun onMoreClick() {
-            listener.onMoreClick()
-        }
-    })
-    adapter.setNoMore(R.layout.view_nomore)
-    adapter.setError(R.layout.view_moreerror, object : RecyclerArrayAdapter.OnErrorListener {
-        override fun onErrorClick() {
-            listener.onErrorClick()
-        }
-
-        override fun onErrorShow() {
-            listener.onErrorShow()
-        }
-    })
-}
+//fun initAdapter(adapter: RecyclerArrayAdapter<*>, listener: AdapterListener) {
+//    adapter.setMore(R.layout.view_loadmore, object : RecyclerArrayAdapter.OnMoreListener {
+//        override fun onMoreShow() {
+//            listener.onMoreShow()
+//        }
+//
+//        override fun onMoreClick() {
+//            listener.onMoreClick()
+//        }
+//    })
+//    adapter.setNoMore(R.layout.view_nomore)
+//    adapter.setError(R.layout.view_moreerror, object : RecyclerArrayAdapter.OnErrorListener {
+//        override fun onErrorClick() {
+//            listener.onErrorClick()
+//        }
+//
+//        override fun onErrorShow() {
+//            listener.onErrorShow()
+//        }
+//    })
+//}
 
 fun dip2px(context: Context, dpValue: Float): Int {
     var scale = context.resources.displayMetrics.density

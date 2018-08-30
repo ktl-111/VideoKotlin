@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -15,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -24,7 +26,6 @@ android {
         }
     }
 }
-def dbflow_version = "4.2.4"
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -36,8 +37,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //状态栏
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
-    //权限
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+
     //retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
@@ -57,7 +57,7 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.3.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //noinspection GradleCompatible
     implementation 'com.android.support:cardview-v7:26.0.0'
     //indicator
@@ -66,15 +66,7 @@ dependencies {
     //毛玻璃
     compile 'com.github.mmin18:realtimeblurview:1.1.0'
     implementation 'com.android.support:palette-v7:27.1.1'
-
     implementation 'com.google.android:flexbox:0.3.1'
-
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-
     compile 'com.shuyu:GSYVideoPlayer:4.1.3'
-
+    api project(':base')
 }

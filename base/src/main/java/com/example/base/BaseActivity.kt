@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.example.base.MyApplication
 import com.gyf.barlibrary.ImmersionBar
-import l.liubin.com.videokotlin.App.MyApplication
 import l.liubin.com.videokotlin.utils.setCustomDensity
 import kotlin.properties.Delegates
 
