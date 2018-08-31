@@ -6,7 +6,7 @@ import l.liubin.com.videokotlin.ui.base.BaseFragment
 /**
  * Created by l on 2018/5/9.
  */
-abstract class MvpFragment<P : BasePresenter<*, BaseModel>> : BaseFragment() {
+abstract class MvpFragment<P : BasePresenter<*, BaseModel<*>>> : BaseFragment() {
     lateinit var mPresenter: P
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

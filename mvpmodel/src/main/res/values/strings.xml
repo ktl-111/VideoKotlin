@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">mvpmodel</string>
+    <string name="message_not_found">资源未找到</string>
+    <string name="message_internal_server_error">服务器内部错误</string>
+    <string name="message_unsatisfiable_request">网关超时，服务器未响应</string>
+    <string name="message_server_error">服务器错误</string>
+    <string name="message_unknownhost">网络异常，请检查您的网络状态</string>
+    <string name="message_sockettimeout">网络连接超时，请检查您的网络状态，稍后重试</string>
+    <string name="message_connectexception">网络连接异常，请检查您的网络状态</string>
+    <string name="message_data_parsing_filed">数据解析失败</string>
+    <string name="message_data_read_filed">数据读取失败</string>
+    <string name="message_unknown_mistake">未知错误</string>
+</resources>

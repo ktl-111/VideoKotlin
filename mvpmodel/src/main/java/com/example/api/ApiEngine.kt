@@ -36,5 +36,5 @@ class ApiEngine {
         }
     }
 
-    fun getApiService(): Api = retrofit.create(Api::class.java)
+    fun <T> getApiService(clazz: Class<T>): T = retrofit.create(clazz)
 }

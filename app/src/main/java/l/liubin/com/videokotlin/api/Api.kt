@@ -11,10 +11,7 @@ import retrofit2.http.*
 /**
  * Created by l on 2018/5/8.
  */
-interface Api {
-    companion object {
-        val BASE_URL = "http://baobab.kaiyanapp.com/api/"
-    }
+interface MyApi : Api {
 
     /**
      * 获取首页

@@ -6,7 +6,7 @@ import l.liubin.com.videokotlin.ui.base.BaseActivity
 /**
  * Created by l on 2018/5/9.
  */
-abstract class MvpActivity<P : BasePresenter<*, BaseModel>> : BaseActivity() {
+abstract class MvpActivity<P : BasePresenter<*, BaseModel<*>>> : BaseActivity() {
     lateinit var mPresenter: P
     override fun onCreate(savedInstanceState: Bundle?) {
         mPresenter = createPresenter()

@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+def configs = rootProject.ext.configs
 android {
-    compileSdkVersion 27
-
-
+    compileSdkVersion configs["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion configs["minSdkVersion"]
+        targetSdkVersion configs["compileSdkVersion"]
         versionCode 1
         versionName "1.0"
 

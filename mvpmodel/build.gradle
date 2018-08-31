@@ -1,15 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-def configs = rootProject.ext.configs
 android {
-    compileSdkVersion configs["compileSdkVersion"]
+    compileSdkVersion 26
+
+
 
     defaultConfig {
-        minSdkVersion configs["minSdkVersion"]
-        targetSdkVersion configs["compileSdkVersion"]
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -25,18 +24,13 @@ android {
     }
 
 }
-def dbflow_version = "4.2.4"
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    api "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    //状态栏
-    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     //retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
@@ -44,10 +38,12 @@ dependencies {
     //rxjava
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    //recyclerview
-    compile 'com.jude:easyrecyclerview:4.4.0'
     //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    api project(':utils')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api project(':base')
+}
+repositories {
+    mavenCentral()
 }
