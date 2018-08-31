@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.mvp.presenter
 
+import com.example.base.MyApplication
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import io.reactivex.ObservableSource
 import io.reactivex.functions.Function
@@ -47,9 +48,9 @@ class IndexPresenter(mView: IndexView) : BasePresenter<IndexView, IndexModel>(mV
             if (it.size > 0) {
                 mView?.showMoreList(it[0].itemList)
             } else {
-                mView?.onError(Utils.getStringFromResources(R.string.data_error))
+                mView?.onError(Utils.getStringFromResources(MyApplication.context,R.string.data_error))
             }
-        } ?: mView?.onError(Utils.getStringFromResources(R.string.data_error))
+        } ?: mView?.onError(Utils.getStringFromResources(MyApplication.context,R.string.data_error))
     }
 
     fun getMoreList() {

@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.mvp.base
 
+import com.example.base.MyApplication
 import com.google.gson.JsonSyntaxException
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -65,22 +66,22 @@ abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel>, mvpView: 
             var msg: String
             when (e) {
                 is HttpException -> msg = when (e.code()) {
-                    NOT_FOUND -> Utils.getStringFromResources(R.string.message_not_found)
-                    INTERNAL_SERVER_ERROR -> Utils.getStringFromResources(R.string.message_internal_server_error)
-                    UNSATISFIABLE_REQUEST -> Utils.getStringFromResources(R.string.message_unsatisfiable_request)
-                    SERVICE_TEMPORARILY_UNAVAILABLE -> Utils.getStringFromResources(R.string.message_server_error)
+                    NOT_FOUND -> Utils.getStringFromResources(MyApplication.context,R.string.message_not_found)
+                    INTERNAL_SERVER_ERROR -> Utils.getStringFromResources(MyApplication.context,R.string.message_internal_server_error)
+                    UNSATISFIABLE_REQUEST -> Utils.getStringFromResources(MyApplication.context,R.string.message_unsatisfiable_request)
+                    SERVICE_TEMPORARILY_UNAVAILABLE -> Utils.getStringFromResources(MyApplication.context,R.string.message_server_error)
                     else -> ""
                 }
                 is UnknownHostException -> //没有网络
-                    msg = Utils.getStringFromResources(R.string.message_unknownhost)
+                    msg = Utils.getStringFromResources(MyApplication.context,R.string.message_unknownhost)
                 is SocketTimeoutException -> // 连接超时
-                    msg = Utils.getStringFromResources(R.string.message_sockettimeout)
-                is ConnectException -> msg = Utils.getStringFromResources(R.string.message_connectexception)
-                is ParseException -> msg = Utils.getStringFromResources(R.string.message_data_parsing_filed)
+                    msg = Utils.getStringFromResources(MyApplication.context,R.string.message_sockettimeout)
+                is ConnectException -> msg = Utils.getStringFromResources(MyApplication.context,R.string.message_connectexception)
+                is ParseException -> msg = Utils.getStringFromResources(MyApplication.context,R.string.message_data_parsing_filed)
                 is JsonSyntaxException -> //解析失败
-                    msg = Utils.getStringFromResources(R.string.message_data_parsing_filed)
-                is IOException -> msg = Utils.getStringFromResources(R.string.message_data_read_filed)
-                else -> msg = Utils.getStringFromResources(R.string.message_unknown_mistake)
+                    msg = Utils.getStringFromResources(MyApplication.context,R.string.message_data_parsing_filed)
+                is IOException -> msg = Utils.getStringFromResources(MyApplication.context,R.string.message_data_read_filed)
+                else -> msg = Utils.getStringFromResources(MyApplication.context,R.string.message_unknown_mistake)
             }
             e?.let { e.printStackTrace() }
             return msg

@@ -1,6 +1,7 @@
 package l.liubin.com.videokotlin.ui.fragment
 
 import android.content.Context
+import com.example.base.MyApplication
 import com.hazz.kotlinmvp.mvp.model.bean.TabInfoBean
 import kotlinx.android.synthetic.main.fragment_popular.*
 import kotlinx.android.synthetic.main.include_title.*
@@ -48,8 +49,8 @@ class PopularFragment : MvpFragment<PopularPresenter>(), PopularView {
             override fun getTitleView(context: Context, postion: Int): IPagerTitleView {
                 var titleView = ColorTransitionPagerTitleView(context)
                 titleView.text = bean.tabInfo.tabList[postion].name
-                titleView.normalColor = Utils.getColor(R.color.color_darker_gray)
-                titleView.selectedColor = Utils.getColor(R.color.color_item_title)
+                titleView.normalColor = Utils.getColor(MyApplication.context,R.color.color_darker_gray)
+                titleView.selectedColor = Utils.getColor(MyApplication.context,R.color.color_item_title)
                 titleView.setOnClickListener { vp_popular_content.currentItem = postion }
                 return titleView
             }
@@ -60,7 +61,7 @@ class PopularFragment : MvpFragment<PopularPresenter>(), PopularView {
                 var indicator = LinePagerIndicator(context)
                 indicator.mode = LinePagerIndicator.MODE_MATCH_EDGE
                 indicator.roundRadius = dip2px(context, 2f).toFloat()
-                indicator.setColors(Utils.getColor(R.color.color_item_title))
+                indicator.setColors(Utils.getColor(MyApplication.context,R.color.color_item_title))
                 return indicator
             }
         }
@@ -74,7 +75,7 @@ class PopularFragment : MvpFragment<PopularPresenter>(), PopularView {
     override fun getResId(): Int = R.layout.fragment_popular
 
     override fun initData() {
-        tv_include_title.text = Utils.getStringFromResources(R.string.popular)
+        tv_include_title.text = Utils.getStringFromResources(MyApplication.context,R.string.popular)
         mPresenter.getPopular()
     }
 

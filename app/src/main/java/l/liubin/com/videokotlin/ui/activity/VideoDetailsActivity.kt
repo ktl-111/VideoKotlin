@@ -1,5 +1,6 @@
 package l.liubin.com.videokotlin.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -259,15 +260,17 @@ class VideoDetailsActivity : MvpActivity<VideoPresenter>(), VideoView, RecyclerA
         super.onBackPressed()
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onPause() {
-        getCurrPlay().onVideoPause()
         super.onPause()
+        getCurrPlay().onVideoPause()
         isPause = true
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onResume() {
-        getCurrPlay().onVideoResume(false)
         super.onResume()
+        getCurrPlay().onVideoResume(false)
         isPause = false
     }
 

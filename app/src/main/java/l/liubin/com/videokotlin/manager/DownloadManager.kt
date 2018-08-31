@@ -15,6 +15,7 @@ import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.service.DownloadService
 import l.liubin.com.videokotlin.utils.SingToast
+import l.liubin.com.videokotlin.utils.logD
 import java.io.File
 
 /**
@@ -121,9 +122,11 @@ class DownloadManager {
         downloadService?.also(less)
                 ?: mContext.bindService(intent, object : ServiceConnection {
             override fun onServiceDisconnected(name: ComponentName?) {
+                logD(DownloadManager::class.java, "连接失败")
             }
 
             override fun onServiceConnected(name: ComponentName?, service: IBinder) {
+                logD(DownloadManager::class.java, "连接成功")
                 var anget = service as DownloadService.MyAnget
                 downloadService = anget.getService()
                 less(downloadService!!)

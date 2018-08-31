@@ -8,8 +8,12 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.example.utils.R
+import com.jude.easyrecyclerview.EasyRecyclerView
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import java.io.File
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -26,6 +30,10 @@ object Utils {
     }
 
     fun getColor(context: Context, resId: Int): Int = ContextCompat.getColor(context, resId)
+}
+
+fun logD(clazz: Class<*>, mess: String) {
+    Log.d(clazz.simpleName, mess)
 }
 
 fun openVideo(context: Context, path: String) {
@@ -63,6 +71,7 @@ fun getPrintSize(size: Long): String {
     }
 }
 
+//UI适配
 var sNoncompatDensity: Float = 0.0f
 var sNoncompatScaledDensity: Float = 0.0f
 fun setCustomDensity(activity: Activity, application: Application) {
@@ -127,27 +136,31 @@ abstract class AdapterListener {
     open fun onErrorClick() {}
 }
 
-//fun initAdapter(adapter: RecyclerArrayAdapter<*>, listener: AdapterListener) {
-//    adapter.setMore(R.layout.view_loadmore, object : RecyclerArrayAdapter.OnMoreListener {
-//        override fun onMoreShow() {
-//            listener.onMoreShow()
-//        }
-//
-//        override fun onMoreClick() {
-//            listener.onMoreClick()
-//        }
-//    })
-//    adapter.setNoMore(R.layout.view_nomore)
-//    adapter.setError(R.layout.view_moreerror, object : RecyclerArrayAdapter.OnErrorListener {
-//        override fun onErrorClick() {
-//            listener.onErrorClick()
-//        }
-//
-//        override fun onErrorShow() {
-//            listener.onErrorShow()
-//        }
-//    })
-//}
+fun initAdapter(adapter: RecyclerArrayAdapter<*>, listener: AdapterListener? = null) {
+    adapter.setMore(R.layout.view_loadmore, object : RecyclerArrayAdapter.OnMoreListener {
+        override fun onMoreShow() {
+            listener?.onMoreShow()
+        }
+
+        override fun onMoreClick() {
+            listener?.onMoreClick()
+        }
+    })
+    adapter.setNoMore(R.layout.view_nomore)
+    adapter.setError(R.layout.view_moreerror, object : RecyclerArrayAdapter.OnErrorListener {
+        override fun onErrorClick() {
+            listener?.onErrorClick()
+        }
+
+        override fun onErrorShow() {
+            listener?.onErrorShow()
+        }
+    })
+}
+
+fun initRecyclerView(easyRecyclerView: EasyRecyclerView, resId: Int = R.layout.view_empty) {
+    easyRecyclerView.setEmptyView(resId)
+}
 
 fun dip2px(context: Context, dpValue: Float): Int {
     var scale = context.resources.displayMetrics.density

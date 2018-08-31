@@ -8,6 +8,7 @@ import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewGroup
+import com.example.base.MyApplication
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.raizlabs.android.dbflow.sql.language.Select
@@ -16,6 +17,7 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_cache.*
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.include_title.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.datebase.DownloadModel
@@ -24,6 +26,7 @@ import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.Utils
+import l.liubin.com.videokotlin.utils.initRecyclerView
 import l.liubin.com.videokotlin.utils.openVideo
 import l.liubin.com.videokotlin.viewholder.CacheViewHolder
 import java.io.File
@@ -35,9 +38,9 @@ class CacheActivity : BaseActivity() {
     lateinit var mAdapter: RecyclerArrayAdapter<DownloadModel>
     override fun getResId(): Int = R.layout.activity_cache
     override fun initData() {
-        var str = SpannableString("${Utils.getStringFromResources(R.string.my_cache)}(长按删除)")
+        var str = SpannableString("${Utils.getStringFromResources(MyApplication.context, R.string.my_cache)}(长按删除)")
 
-        str.setSpan(RelativeSizeSpan(0.7f), Utils.getStringFromResources(R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        str.setSpan(RelativeSizeSpan(0.7f), Utils.getStringFromResources(MyApplication.context, R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_include_title.text = str
         erv_cache_list.setLayoutManager(LinearLayoutManager(mContext))
         mAdapter = object : RecyclerArrayAdapter<DownloadModel>(mContext) {
@@ -45,6 +48,7 @@ class CacheActivity : BaseActivity() {
                 return CacheViewHolder(parent, mContext)
             }
         }
+        initRecyclerView(erv_cache_list)
         erv_cache_list.adapter = mAdapter
         Observable.create(ObservableOnSubscribe<List<DownloadModel>> { e ->
             var list = Select().from(DownloadModel::class.java).queryList()
@@ -53,8 +57,12 @@ class CacheActivity : BaseActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { list ->
-                    mAdapter.clear()
-                    mAdapter.addAll(list)
+                    if (list.isEmpty()) {
+                        erv_search_list.showEmpty()
+                    } else {
+                        mAdapter.clear()
+                        mAdapter.addAll(list)
+                    }
                 }
     }
 
@@ -101,7 +109,7 @@ class CacheActivity : BaseActivity() {
         model.title = title
         model.img_url = imgUrl
         model.savepath = "${Environment.getExternalStorageDirectory().getPath()}/VideoKotlin/$title.apk"
-        DownloadManager.getInstance(mContext).create(mContext,model)
+        DownloadManager.getInstance(mContext).create(mContext, model)
     }
 
     override fun initEvent() {
@@ -124,6 +132,9 @@ class CacheActivity : BaseActivity() {
                             file.delete()
                         }
                         mAdapter.remove(item)
+                        if (mAdapter.allData.isEmpty()) {
+                            erv_cache_list.showEmpty()
+                        }
                     }
                     .setNegativeButton("否") { dialog, _ -> dialog.dismiss() }
                     .setOnCancelListener { dialog -> dialog.dismiss() }

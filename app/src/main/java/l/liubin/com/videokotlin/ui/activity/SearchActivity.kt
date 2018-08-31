@@ -92,7 +92,7 @@ class SearchActivity : MvpActivity<SearchPresenter>(), SearchView {
 
         }
         erv_search_list.adapter = mAdapter
-        erv_search_list.setEmptyView(R.layout.view_empty)
+        initRecyclerView(erv_search_list)
         openKeyBord(et_search_content, mContext)
         mPresenter.getHotSearch()
     }

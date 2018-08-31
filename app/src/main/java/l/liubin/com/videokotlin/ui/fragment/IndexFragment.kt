@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import com.example.base.MyApplication
 import com.gyf.barlibrary.ImmersionBar
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
@@ -78,7 +79,7 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
         }
         erv_index_list.setLayoutManager(LinearLayoutManager(mContext))
         erv_index_list.adapter = mAdapter
-        tb_index_bar.setBackgroundColor(Utils.getColor(R.color.transparent))
+        tb_index_bar.setBackgroundColor(Utils.getColor(MyApplication.context,R.color.transparent))
         tb_index_bar.post {
             toolbarHeight = tb_index_bar.measuredHeight.toDouble()
             dty = dip2px(mContext, 200.0f + 44.0f) - toolbarHeight!!

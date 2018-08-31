@@ -3,6 +3,7 @@ package l.liubin.com.videokotlin.ui.fragment
 import android.content.Intent
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.ViewGroup
+import com.example.base.MyApplication
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
@@ -28,7 +29,7 @@ class CategoriesFragment : MvpFragment<CatrgoriesPresenter>(), CatrgoriesView {
     lateinit var mAdapter: RecyclerArrayAdapter<CategoryBean>
 
     override fun initData() {
-        tv_include_title.text = Utils.getStringFromResources(R.string.categories)
+        tv_include_title.text = Utils.getStringFromResources(MyApplication.context,R.string.categories)
         mAdapter = object : RecyclerArrayAdapter<CategoryBean>(mContext) {
             override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
                 return CatrgoriesViewHolder(parent, mContext)
