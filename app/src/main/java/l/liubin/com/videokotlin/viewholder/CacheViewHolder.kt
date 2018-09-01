@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.downloadmodel.datebase.DownloadModel
+import com.example.downloadmodel.datebase.DownloadModel_Table
+import com.example.downloadmodel.manager.DownloadManager
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.raizlabs.android.dbflow.sql.language.Select
 import l.liubin.com.videokotlin.R
-import l.liubin.com.videokotlin.datebase.DownloadModel
-import l.liubin.com.videokotlin.datebase.DownloadModel_Table
 import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
-import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.utils.GlideUils
 import l.liubin.com.videokotlin.utils.openVideo
 import l.liubin.com.videokotlin.utils.toDoubleNumber

@@ -1,4 +1,4 @@
-package l.liubin.com.videokotlin.manager
+package com.example.downloadmodel.manager
 
 import android.app.AlertDialog
 import android.content.ComponentName
@@ -7,10 +7,10 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Environment
 import android.os.IBinder
+import com.example.downloadmodel.datebase.DownloadModel
+import com.example.downloadmodel.datebase.DownloadModel_Table
+import com.example.utils.NetworkUtils
 import com.raizlabs.android.dbflow.sql.language.Select
-import com.shuyu.gsyvideoplayer.utils.NetworkUtils
-import l.liubin.com.videokotlin.datebase.DownloadModel
-import l.liubin.com.videokotlin.datebase.DownloadModel_Table
 import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.service.DownloadService
@@ -70,8 +70,8 @@ class DownloadManager {
                     .setNegativeButton("否") { dialog, _ ->
                         dialog.dismiss()
                     }.setOnCancelListener { dialog ->
-                dialog.dismiss()
-            }.setCancelable(true)
+                        dialog.dismiss()
+                    }.setCancelable(true)
                     .show()
         } else {
             start((curr_model))
@@ -121,19 +121,19 @@ class DownloadManager {
         mContext.startService(intent)
         downloadService?.also(less)
                 ?: mContext.bindService(intent, object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
-                logD(DownloadManager::class.java, "连接失败")
-            }
+                    override fun onServiceDisconnected(name: ComponentName?) {
+                        logD(DownloadManager::class.java, "连接失败")
+                    }
 
-            override fun onServiceConnected(name: ComponentName?, service: IBinder) {
-                logD(DownloadManager::class.java, "连接成功")
-                var anget = service as DownloadService.MyAnget
-                downloadService = anget.getService()
-                less(downloadService!!)
-                mContext.unbindService(this)
-            }
+                    override fun onServiceConnected(name: ComponentName?, service: IBinder) {
+                        logD(DownloadManager::class.java, "连接成功")
+                        var anget = service as DownloadService.MyAnget
+                        downloadService = anget.getService()
+                        less(downloadService!!)
+                        mContext.unbindService(this)
+                    }
 
-        }, Context.BIND_AUTO_CREATE)
+                }, Context.BIND_AUTO_CREATE)
     }
 
     fun clearListener() {

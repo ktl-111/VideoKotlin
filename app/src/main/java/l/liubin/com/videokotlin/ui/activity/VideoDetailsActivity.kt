@@ -21,6 +21,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.downloadmodel.datebase.DownloadModel
+import com.example.downloadmodel.manager.DownloadManager
 import com.gyf.barlibrary.BarHide
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
@@ -34,8 +36,6 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_videodetails.*
 import l.liubin.com.videokotlin.R
-import l.liubin.com.videokotlin.datebase.DownloadModel
-import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
 import l.liubin.com.videokotlin.mvp.presenter.VideoPresenter
 import l.liubin.com.videokotlin.mvp.view.VideoView

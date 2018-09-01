@@ -9,6 +9,9 @@ import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewGroup
 import com.example.base.MyApplication
+import com.example.downloadmodel.datebase.DownloadModel
+import com.example.downloadmodel.datebase.DownloadModel_Table
+import com.example.downloadmodel.manager.DownloadManager
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import com.raizlabs.android.dbflow.sql.language.Select
@@ -17,13 +20,9 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_cache.*
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.include_title.*
 import l.liubin.com.videokotlin.R
-import l.liubin.com.videokotlin.datebase.DownloadModel
-import l.liubin.com.videokotlin.datebase.DownloadModel_Table
 import l.liubin.com.videokotlin.download.DownloadState
-import l.liubin.com.videokotlin.manager.DownloadManager
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.utils.Utils
 import l.liubin.com.videokotlin.utils.initRecyclerView
@@ -58,7 +57,7 @@ class CacheActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { list ->
                     if (list.isEmpty()) {
-                        erv_search_list.showEmpty()
+                        erv_cache_list.showEmpty()
                     } else {
                         mAdapter.clear()
                         mAdapter.addAll(list)

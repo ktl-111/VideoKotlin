@@ -1,4 +1,4 @@
-package l.liubin.com.videokotlin.datebase;
+package com.example.downloadmodel.datebase;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

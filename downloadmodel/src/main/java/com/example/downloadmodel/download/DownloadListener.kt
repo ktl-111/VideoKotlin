@@ -1,6 +1,7 @@
 package l.liubin.com.videokotlin.download
 
-import l.liubin.com.videokotlin.datebase.DownloadModel
+import com.example.downloadmodel.datebase.DownloadModel
+
 
 /**
  * Created by l on 2018/5/18.

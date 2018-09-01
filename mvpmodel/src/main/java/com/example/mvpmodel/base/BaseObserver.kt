@@ -63,28 +63,28 @@ abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel<*>>, mvpVie
         val UNSATISFIABLE_REQUEST = 504
         val SERVICE_TEMPORARILY_UNAVAILABLE = 503
         fun parseError(e: Throwable): String {
-            var msg: String
+            var resid: Int
             when (e) {
-                is HttpException -> msg = when (e.code()) {
-                    NOT_FOUND -> Utils.getStringFromResources(MyApplication.context, R.string.message_not_found)
-                    INTERNAL_SERVER_ERROR -> Utils.getStringFromResources(MyApplication.context, R.string.message_internal_server_error)
-                    UNSATISFIABLE_REQUEST -> Utils.getStringFromResources(MyApplication.context, R.string.message_unsatisfiable_request)
-                    SERVICE_TEMPORARILY_UNAVAILABLE -> Utils.getStringFromResources(MyApplication.context, R.string.message_server_error)
-                    else -> ""
+                is HttpException -> resid = when (e.code()) {
+                    NOT_FOUND -> R.string.message_not_found
+                    INTERNAL_SERVER_ERROR -> R.string.message_internal_server_error
+                    UNSATISFIABLE_REQUEST -> R.string.message_unsatisfiable_request
+                    SERVICE_TEMPORARILY_UNAVAILABLE -> R.string.message_server_error
+                    else -> R.string.message_unknown_mistake
                 }
                 is UnknownHostException -> //没有网络
-                    msg = Utils.getStringFromResources(MyApplication.context, R.string.message_unknownhost)
+                    resid = R.string.message_unknownhost
                 is SocketTimeoutException -> // 连接超时
-                    msg = Utils.getStringFromResources(MyApplication.context, R.string.message_sockettimeout)
-                is ConnectException -> msg = Utils.getStringFromResources(MyApplication.context, R.string.message_connectexception)
-                is ParseException -> msg = Utils.getStringFromResources(MyApplication.context, R.string.message_data_parsing_filed)
+                    resid = R.string.message_sockettimeout
+                is ConnectException -> resid = R.string.message_connectexception
+                is ParseException -> resid = R.string.message_data_parsing_filed
                 is JsonSyntaxException -> //解析失败
-                    msg = Utils.getStringFromResources(MyApplication.context, R.string.message_data_parsing_filed)
-                is IOException -> msg = Utils.getStringFromResources(MyApplication.context, R.string.message_data_read_filed)
-                else -> msg = Utils.getStringFromResources(MyApplication.context, R.string.message_unknown_mistake)
+                    resid = R.string.message_data_parsing_filed
+                is IOException -> resid = R.string.message_data_read_filed
+                else -> resid = R.string.message_unknown_mistake
             }
             e?.let { e.printStackTrace() }
-            return msg
+            return Utils.getStringFromResources(MyApplication.context, resid)
         }
     }
 }

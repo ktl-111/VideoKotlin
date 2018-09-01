@@ -9,10 +9,9 @@ import retrofit2.Response
 import retrofit2.http.*
 
 /**
- * Created by l on 2018/5/8.
+ * Created by steam_lb on 2018/9/1/001.
  */
-interface MyApi : Api {
-
+interface MyApi {
     /**
      * 获取首页
      */
@@ -74,5 +73,4 @@ interface MyApi : Api {
     @Streaming
     @GET
     fun check(@Url url: String): Observable<Response<ResponseBody>>
-
 }

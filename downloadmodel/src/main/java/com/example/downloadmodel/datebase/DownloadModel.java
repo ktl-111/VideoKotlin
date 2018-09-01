@@ -1,4 +1,4 @@
-package l.liubin.com.videokotlin.datebase;
+package com.example.downloadmodel.datebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
