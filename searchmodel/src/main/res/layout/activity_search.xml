@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/title_bar_height"
+                  android:layout_marginLeft="15dp"
+                  android:layout_marginRight="15dp"
+                  android:gravity="center_vertical"
+                  android:orientation="horizontal">
+        <EditText android:id="@+id/et_search_content" android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:layout_marginRight="10dp"
+                  android:layout_weight="1"
+                  android:background="@drawable/bg_gray_15r_shape"
+                  android:drawableLeft="@mipmap/ic_action_search_no_padding"
+                  android:drawablePadding="5dp"
+                  android:hint="@string/search_hint_text"
+                  android:imeOptions="actionSearch"
+                  android:paddingLeft="10dp"
+                  android:paddingRight="22dp"
+                  android:singleLine="true"
+                  android:textSize="12sp"/>
+        <TextView android:id="@+id/tv_search_cancel" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/cancel"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_marginTop="15dp"
+                  android:orientation="vertical">
+        <TextView android:id="@+id/tv_search_toast" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal"
+                  android:text="@string/search_hot_keywords_tip"/>
+        <com.jude.easyrecyclerview.EasyRecyclerView android:id="@+id/erv_search_list"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:paddingLeft="15dp"
+                                                    android:paddingRight="15dp"
+                                                    app:scrollbars="none"></com.jude.easyrecyclerview.EasyRecyclerView>
+    </LinearLayout>
+</LinearLayout>

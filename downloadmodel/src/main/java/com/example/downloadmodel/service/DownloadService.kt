@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import com.example.downloadmodel.datebase.DownloadModel
+import com.example.downloadmodel.mvp.DownloadMvpModel
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -59,10 +60,10 @@ class DownloadService : Service() {
         states[model.download_url] = model
         var observable: Observable<Response<ResponseBody>> = if (model.currlength == 0.toLong()) {
             //第一次下载,直接拿
-            ApiEngine.apiEngine.getApiService(com.example.downloadmodel.mvp.DownloadMvpModel.apiClazz).check(model.download_url)
+            ApiEngine.apiEngine.getApiService(DownloadMvpModel.apiClazz).check(model.download_url)
         } else {
             //第二次下载,要加range
-            ApiEngine.apiEngine.getApiService(com.example.downloadmodel.mvp.DownloadMvpModel.apiClazz).download("bytes=${model.currlength}-${model.totallength}", model.download_url)
+            ApiEngine.apiEngine.getApiService(DownloadMvpModel.apiClazz).download("bytes=${model.currlength}-${model.totallength}", model.download_url)
         }
 
         observable

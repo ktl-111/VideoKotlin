@@ -12,9 +12,13 @@
             <option value="$PROJECT_DIR$/apimodel" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/beanmodel" />
             <option value="$PROJECT_DIR$/downloadmodel" />
+            <option value="$PROJECT_DIR$/indexmodel" />
             <option value="$PROJECT_DIR$/mvpmodel" />
+            <option value="$PROJECT_DIR$/searchmodel" />
             <option value="$PROJECT_DIR$/utils" />
+            <option value="$PROJECT_DIR$/videodetailsmodel" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

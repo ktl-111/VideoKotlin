@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
+import com.example.videodetailsmodel.activity.VideoDetailsActivity
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
@@ -12,7 +13,6 @@ import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpFragment
 import l.liubin.com.videokotlin.mvp.presenter.HotPresenter
 import l.liubin.com.videokotlin.mvp.view.HotView
-import l.liubin.com.videokotlin.ui.activity.VideoDetailsActivity
 import l.liubin.com.videokotlin.utils.SingToast
 import l.liubin.com.videokotlin.viewholder.HotViewHolder
 import java.util.*

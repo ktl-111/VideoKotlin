@@ -1,3 +1,64 @@
 <resources>
     <string name="app_name">base</string>
+    <string name="message_not_found">资源未找到</string>
+    <string name="message_internal_server_error">服务器内部错误</string>
+    <string name="message_unsatisfiable_request">网关超时，服务器未响应</string>
+    <string name="message_server_error">服务器错误</string>
+    <string name="message_unknownhost">网络异常，请检查您的网络状态</string>
+    <string name="message_sockettimeout">网络连接超时，请检查您的网络状态，稍后重试</string>
+    <string name="message_connectexception">网络连接异常，请检查您的网络状态</string>
+    <string name="message_data_parsing_filed">数据解析失败</string>
+    <string name="message_data_read_filed">数据读取失败</string>
+    <string name="message_unknown_mistake">未知错误</string>
+    <string name="video_offline">缓存</string>
+    <string name="video_attention">+ 关注</string>
+    <string name="video_end">- The End-</string>
+
+    <string name="category_title">全部分类</string>
+    <string name="hot_title">人气榜</string>
+    <string name="about">关于</string>
+
+    <string name="search_transition_name">transition_reveal</string>
+    <string name="search_hint_text">帮你找到感兴趣的视频</string>
+    <string name="search_title_tip">输入标题或描述中的关键词找到更多视频</string>
+    <string name="search_hot_keywords_tip">- 热门搜索词 -</string>
+    <string name="search_result_count">-「%1$s」搜索结果共%2$s个-</string>
+
+
+    <string name="cancel">取消</string>
+
+    <string name="nickname">Xiho</string>
+    <string name="view_homepage">查看个人主页 ></string>
+
+    <string name="collection">收藏</string>
+    <string name="comment">评论</string>
+    <string name="mine_message">我的消息</string>
+    <string name="mine_attention">我的关注</string>
+    <string name="mine_cache">我的缓存</string>
+    <string name="view_history">观看记录</string>
+    <string name="feedback">意见反馈</string>
+
+
+    <string name="loading_text">加载中&#8230;</string>
+    <string name="no_network">请检查网络后点击重新加载</string>
+    <string name="data_error">数据获取失败(ㄒoㄒ)~~</string>
+    <string name="empty_view_hint">暂时木有内容呀~~</string>
+    <string name="splash_text">每日精选视频，让你大开眼界</string>
+
+
+    <string name="copy_right_notice">内容部分数据归原公司《开眼Eyepetizer》版权所有</string>
+    <string name="not_use_commercial">本APP只供学习交流和研究之用，\n请勿用作商业用途！</string>
+    <string name="since">copyright ©2017 Xiho.</string>
+    <string name="gitHub">GitHub</string>
+    <string name="index">首页</string>
+    <string name="categories">分类</string>
+    <string name="popular">热门</string>
+    <string name="mine">我的</string>
+    <string name="load_more">--加载更多中--</string>
+    <string name="no_more">--暂无数据--</string>
+    <string name="error_more">--出错,点击重试--</string>
+    <string name="my_cache">我的缓存</string>
+    <string name="refresh_success">刷新成功</string>
+    <string name="download">下载</string>
+    <string name="is_exist">该视频以下载</string>
 </resources>

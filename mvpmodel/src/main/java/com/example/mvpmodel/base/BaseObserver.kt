@@ -32,13 +32,13 @@ abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel<*>>, mvpVie
 
     abstract fun onSuccess(data: T)
 
-    fun onStart() {
+    private fun onStart() {
         if (isShowLoading) {
             mvpView.showLoading()
         }
     }
 
-    fun onEnd() {
+    private fun onEnd() {
         if (isShowLoading) {
             mvpView.hindeLoading()
         }
@@ -58,10 +58,10 @@ abstract class BaseObserver<T>(persenter: BasePresenter<*, BaseModel<*>>, mvpVie
     }
 
     companion object {
-        val NOT_FOUND = 404
-        val INTERNAL_SERVER_ERROR = 500
-        val UNSATISFIABLE_REQUEST = 504
-        val SERVICE_TEMPORARILY_UNAVAILABLE = 503
+        private const val NOT_FOUND = 404
+        private const val INTERNAL_SERVER_ERROR = 500
+        private const val UNSATISFIABLE_REQUEST = 504
+        private const val SERVICE_TEMPORARILY_UNAVAILABLE = 503
         fun parseError(e: Throwable): String {
             var resid: Int
             when (e) {

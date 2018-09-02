@@ -1,1 +1,1 @@
-include ':app', ':utils', ':base', ':mvpmodel', ':downloadmodel', ':apimodel'
+include ':app', ':utils', ':base', ':mvpmodel', ':downloadmodel', ':apimodel', ':indexmodel', ':videodetailsmodel', ':searchmodel', ':beanmodel'

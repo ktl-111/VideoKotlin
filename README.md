@@ -11,3 +11,5 @@
 使用GSYVideoPlayer开源项目
 #####2.视频下载
 使用多线程,封装retrofit+rxjava+ThreadPoolExecutor+service
+
+![模块化](orther/Modular.png)

@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+def configs = rootProject.ext.configs
+def librarys = rootProject.ext.librarys
 android {
-    compileSdkVersion 26
-
-
-
+    compileSdkVersion configs["compileSdkVersion"]
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion configs["minSdkVersion"]
+        targetSdkVersion configs["targetSdkVersion"]
         versionCode 1
         versionName "1.0"
 
@@ -28,17 +26,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation librarys["support_appcompat_v7"]
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile librarys["retrofit"]
+    compile librarys["converter_gson"]
+    compile librarys["retrofit_rxjava"]
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation librarys["okhttp"]
+    compile librarys["logging_interceptor"]
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
