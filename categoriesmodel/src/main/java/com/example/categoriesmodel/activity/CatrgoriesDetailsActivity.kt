@@ -1,22 +1,20 @@
-package l.liubin.com.videokotlin.ui.activity
+package com.example.categoriesmodel.activity
 
 import android.content.Intent
-import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
+import com.example.categoriesmodel.R
+import com.example.categoriesmodel.mvp.persenter.CatroiesDetailsPresenter
+import com.example.categoriesmodel.mvp.view.CatroriesDetailsView
+import com.example.categoriesmodel.viewholder.HotViewHolder
 import com.example.videodetailsmodel.activity.VideoDetailsActivity
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
 import kotlinx.android.synthetic.main.activity_categoriesdetails.*
-import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.mvp.base.MvpActivity
-import l.liubin.com.videokotlin.mvp.presenter.CatroiesDetailsPresenter
-import l.liubin.com.videokotlin.mvp.view.CatroriesDetailsView
 import l.liubin.com.videokotlin.utils.*
-import l.liubin.com.videokotlin.viewholder.HotViewHolder
-
 /**
  * Created by l on 2018/5/11.
  */
@@ -96,11 +94,11 @@ class CatrgoriesDetailsActivity : MvpActivity<CatroiesDetailsPresenter>(), Catro
     override fun initEvent() {
         mAdapter.setOnItemClickListener { position ->
             var item = mAdapter.getItem(position)
-            startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.INTENT_DATA, item))
+            startActivity(Intent(mContext, VideoDetailsActivity::class.java).putExtra(VideoDetailsActivity.Companion.INTENT_DATA, item))
         }
         toolbar.setNavigationOnClickListener { _ -> finish() }
         //由于该方法有两种类的参数,而这两种类的参数又不一样,所以要注明是哪个类
-        appbar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+        appbar_layout.addOnOffsetChangedListener(android.support.design.widget.AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             var offset = Math.abs(verticalOffset).toDouble() / dHeight
 //            var hex = Integer.toHexString((Integer.parseInt("4D", 16).toDouble() * offset).toInt()).toUpperCase()
 //            if (hex.length == 1) {

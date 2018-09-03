@@ -1,4 +1,4 @@
-package l.liubin.com.videokotlin.mvp.view
+package com.example.categoriesmodel.mvp.view
 
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import l.liubin.com.videokotlin.mvp.base.BaseView

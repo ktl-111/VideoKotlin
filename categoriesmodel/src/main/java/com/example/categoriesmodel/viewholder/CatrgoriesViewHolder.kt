@@ -1,12 +1,12 @@
-package l.liubin.com.videokotlin.viewholder
+package com.example.categoriesmodel.viewholder
 
 import android.content.Context
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.categoriesmodel.R
 import com.hazz.kotlinmvp.mvp.model.bean.CategoryBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
-import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.utils.GlideUils
 
 /**

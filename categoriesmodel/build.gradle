@@ -1,0 +1,42 @@
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+def configs = rootProject.ext.configs
+def librarys = rootProject.ext.librarys
+android {
+    compileSdkVersion configs["compileSdkVersion"]
+    defaultConfig {
+//        applicationId "com.example.categoriesmodel"
+        minSdkVersion configs["minSdkVersion"]
+        targetSdkVersion configs["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation librarys["support_appcompat_v7"]
+    implementation librarys["support_design"]
+    implementation librarys["support_cardview_v7"]
+    //毛玻璃
+    compile 'com.github.mmin18:realtimeblurview:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    api project(':mvpmodel')
+    api project(':videodetailsmodel')
+}

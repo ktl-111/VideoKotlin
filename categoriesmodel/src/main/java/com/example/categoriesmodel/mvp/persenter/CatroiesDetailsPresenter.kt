@@ -1,10 +1,10 @@
-package l.liubin.com.videokotlin.mvp.presenter
+package com.example.categoriesmodel.mvp.persenter
 
+import com.example.categoriesmodel.mvp.model.CatroiesDetailsModel
+import com.example.categoriesmodel.mvp.view.CatroriesDetailsView
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import l.liubin.com.videokotlin.mvp.base.BaseObserver
 import l.liubin.com.videokotlin.mvp.base.BasePresenter
-import l.liubin.com.videokotlin.mvp.model.CatroiesDetailsModel
-import l.liubin.com.videokotlin.mvp.view.CatroriesDetailsView
 
 /**
  * Created by l on 2018/5/11.
