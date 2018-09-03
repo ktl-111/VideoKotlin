@@ -1,5 +1,9 @@
-//apply plugin: 'com.android.application'
-apply plugin: 'com.android.library'
+if (isDebug.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 def configs = rootProject.ext.configs
@@ -7,7 +11,9 @@ def librarys = rootProject.ext.librarys
 android {
     compileSdkVersion configs["compileSdkVersion"]
     defaultConfig {
-//        applicationId "com.example.popularmodel"
+        if (!isDebug.toBoolean()) {
+            applicationId "com.example.popularmodel"
+        }
         minSdkVersion configs["minSdkVersion"]
         targetSdkVersion configs["targetSdkVersion"]
         versionCode 1
@@ -21,6 +27,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            if (isDebug.toBoolean()) {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/release/AndroidManifest.xml'
+                java {
+                    exclude 'debug/**'
+                }
+            }
         }
     }
 

@@ -38,7 +38,7 @@ dependencies {
     //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.shuyu:GSYVideoPlayer:4.1.3'
+    compileOnly 'com.shuyu:GSYVideoPlayer:4.1.3'
     api project(':mvpmodel')
     api project(':downloadmodel')
 }

@@ -7,7 +7,7 @@ import android.text.style.RelativeSizeSpan
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.popularmodel.R
+import com.example.searchmodel.R
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import l.liubin.com.videokotlin.utils.GlideUils
