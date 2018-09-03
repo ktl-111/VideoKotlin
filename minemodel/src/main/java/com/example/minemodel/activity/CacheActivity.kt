@@ -1,60 +1,48 @@
-package l.liubin.com.videokotlin.ui.activity
+package com.example.minemodel.activity
 
 import android.os.Environment
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.view.View
 import android.view.ViewGroup
-import com.example.base.MyApplication
 import com.example.downloadmodel.datebase.DownloadModel
 import com.example.downloadmodel.datebase.DownloadModel_Table
-import com.example.downloadmodel.manager.DownloadManager
-import com.jude.easyrecyclerview.adapter.BaseViewHolder
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter
+import com.example.minemodel.R
+import com.example.minemodel.viewholder.CacheViewHolder
 import com.raizlabs.android.dbflow.sql.language.Select
-import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_cache.*
 import kotlinx.android.synthetic.main.include_title.*
-import l.liubin.com.videokotlin.R
-import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.ui.base.BaseActivity
-import l.liubin.com.videokotlin.utils.Utils
-import l.liubin.com.videokotlin.utils.initRecyclerView
-import l.liubin.com.videokotlin.utils.openVideo
-import l.liubin.com.videokotlin.viewholder.CacheViewHolder
 import java.io.File
 
 /**
  * Created by l on 2018/5/21.
  */
 class CacheActivity : BaseActivity() {
-    lateinit var mAdapter: RecyclerArrayAdapter<DownloadModel>
+    lateinit var mAdapter: com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter<DownloadModel>
     override fun getResId(): Int = R.layout.activity_cache
     override fun initData() {
-        var str = SpannableString("${Utils.getStringFromResources(MyApplication.context, R.string.my_cache)}(长按删除)")
+        var str = SpannableString("${l.liubin.com.videokotlin.utils.Utils.getStringFromResources(com.example.base.MyApplication.Companion.context, R.string.my_cache)}(长按删除)")
 
-        str.setSpan(RelativeSizeSpan(0.7f), Utils.getStringFromResources(MyApplication.context, R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        str.setSpan(RelativeSizeSpan(0.7f), l.liubin.com.videokotlin.utils.Utils.getStringFromResources(com.example.base.MyApplication.Companion.context, R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_include_title.text = str
-        erv_cache_list.setLayoutManager(LinearLayoutManager(mContext))
-        mAdapter = object : RecyclerArrayAdapter<DownloadModel>(mContext) {
-            override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+        erv_cache_list.setLayoutManager(android.support.v7.widget.LinearLayoutManager(mContext))
+        mAdapter = object : com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter<com.example.downloadmodel.datebase.DownloadModel>(mContext) {
+            override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): com.jude.easyrecyclerview.adapter.BaseViewHolder<*> {
                 return CacheViewHolder(parent, mContext)
             }
         }
-        initRecyclerView(erv_cache_list)
+        l.liubin.com.videokotlin.utils.initRecyclerView(erv_cache_list)
         erv_cache_list.adapter = mAdapter
-        Observable.create(ObservableOnSubscribe<List<DownloadModel>> { e ->
-            var list = Select().from(DownloadModel::class.java).queryList()
+        io.reactivex.Observable.create(ObservableOnSubscribe<List<com.example.downloadmodel.datebase.DownloadModel>> { e ->
+            var list = Select().from(com.example.downloadmodel.datebase.DownloadModel::class.java).queryList()
             e.onNext(list)
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe { list ->
                     if (list.isEmpty()) {
                         erv_cache_list.showEmpty()
@@ -67,7 +55,7 @@ class CacheActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        DownloadManager.getInstance(mContext).clearListener()
+        com.example.downloadmodel.manager.DownloadManager.Companion.getInstance(mContext).clearListener()
     }
 
     fun addDownload(v: View) {
@@ -103,20 +91,20 @@ class CacheActivity : BaseActivity() {
     }
 
     private fun createDownload(downloadUrl: String, title: String, imgUrl: String) {
-        var model = DownloadModel()
+        var model = com.example.downloadmodel.datebase.DownloadModel()
         model.download_url = downloadUrl
         model.title = title
         model.img_url = imgUrl
         model.savepath = "${Environment.getExternalStorageDirectory().getPath()}/VideoKotlin/$title.apk"
-        DownloadManager.getInstance(mContext).create(mContext, model)
+        com.example.downloadmodel.manager.DownloadManager.Companion.getInstance(mContext).create(mContext, model)
     }
 
     override fun initEvent() {
         mAdapter.setOnItemClickListener { position ->
-            var item = Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(mAdapter.getItem(position).download_url)).querySingle()
+            var item = com.raizlabs.android.dbflow.sql.language.Select().from(com.example.downloadmodel.datebase.DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(mAdapter.getItem(position).download_url)).querySingle()
             item?.state?.also {
-                if (it == DownloadState.STATE_SUCCESS) {
-                    openVideo(mContext, item.savepath)
+                if (it == l.liubin.com.videokotlin.download.DownloadState.STATE_SUCCESS) {
+                    l.liubin.com.videokotlin.utils.openVideo(mContext, item.savepath)
                 }
             }
         }

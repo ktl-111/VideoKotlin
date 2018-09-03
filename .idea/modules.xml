@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" filepath="$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/downloadmodel/downloadmodel.iml" filepath="$PROJECT_DIR$/downloadmodel/downloadmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/indexmodel/indexmodel.iml" filepath="$PROJECT_DIR$/indexmodel/indexmodel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/minemodel/minemodel.iml" filepath="$PROJECT_DIR$/minemodel/minemodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvpmodel/mvpmodel.iml" filepath="$PROJECT_DIR$/mvpmodel/mvpmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/popularmodel/popularmodel.iml" filepath="$PROJECT_DIR$/popularmodel/popularmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/searchmodel/searchmodel.iml" filepath="$PROJECT_DIR$/searchmodel/searchmodel.iml" />

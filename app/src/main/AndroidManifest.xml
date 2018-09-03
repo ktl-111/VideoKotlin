@@ -34,7 +34,7 @@
         <activity android:name="com.example.videodetailsmodel.activity.VideoDetailsActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.activity.CacheActivity"></activity>
+        <activity android:name="com.example.minemodel.activity.CacheActivity"></activity>
         <service android:name=".service.DownloadService"></service>
         <provider
             android:name="android.support.v4.content.FileProvider"

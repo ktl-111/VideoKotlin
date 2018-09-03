@@ -57,4 +57,5 @@ dependencies {
     api project(':indexmodel')
     api project(':categoriesmodel')
     api project(':popularmodel')
+    api project(':minemodel')
 }

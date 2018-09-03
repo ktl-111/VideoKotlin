@@ -1,4 +1,4 @@
-package l.liubin.com.videokotlin.viewholder
+package com.example.minemodel.viewholder
 
 import android.content.Context
 import android.view.View
@@ -8,9 +8,9 @@ import android.widget.TextView
 import com.example.downloadmodel.datebase.DownloadModel
 import com.example.downloadmodel.datebase.DownloadModel_Table
 import com.example.downloadmodel.manager.DownloadManager
+import com.example.minemodel.R
 import com.jude.easyrecyclerview.adapter.BaseViewHolder
 import com.raizlabs.android.dbflow.sql.language.Select
-import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
 import l.liubin.com.videokotlin.utils.GlideUils

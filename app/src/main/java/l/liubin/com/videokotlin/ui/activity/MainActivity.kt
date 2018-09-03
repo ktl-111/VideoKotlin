@@ -5,11 +5,11 @@ import android.os.PersistableBundle
 import android.widget.RadioButton
 import com.example.categoriesmodel.fragment.CategoriesFragment
 import com.example.indexmodel.fragment.IndexFragment
+import com.example.minemodel.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import l.liubin.com.videokotlin.R
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 import l.liubin.com.videokotlin.ui.base.BaseFragment
-import l.liubin.com.videokotlin.ui.fragment.MineFragment
 import l.liubin.com.videokotlin.ui.fragment.PopularFragment
 
 class MainActivity : BaseActivity() {
