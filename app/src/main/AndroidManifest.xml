@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.MainActivity"></activity>
-        <activity android:name=".ui.activity.CatrgoriesDetailsActivity"></activity>
+        <activity android:name="com.example.categoriesmodel.activity.CatrgoriesDetailsActivity"></activity>
         <activity android:name="com.example.searchmodel.activity.SearchActivity"></activity>
         <activity android:name="com.example.videodetailsmodel.activity.VideoDetailsActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"

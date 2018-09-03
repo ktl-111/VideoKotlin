@@ -4,22 +4,17 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VideoKotlin.iml" filepath="$PROJECT_DIR$/VideoKotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/apimodel/apimodel.iml" filepath="$PROJECT_DIR$/apimodel/apimodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\apimodel\apimodel.iml" filepath="D:\project\VideoKotlin\apimodel\apimodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/beanmodel/beanmodel.iml" filepath="$PROJECT_DIR$/beanmodel/beanmodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\beanmodel\beanmodel.iml" filepath="D:\project\VideoKotlin\beanmodel\beanmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" filepath="$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/downloadmodel/downloadmodel.iml" filepath="$PROJECT_DIR$/downloadmodel/downloadmodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\downloadmodel\downloadmodel.iml" filepath="D:\project\VideoKotlin\downloadmodel\downloadmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/indexmodel/indexmodel.iml" filepath="$PROJECT_DIR$/indexmodel/indexmodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\indexmodel\indexmodel.iml" filepath="D:\project\VideoKotlin\indexmodel\indexmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvpmodel/mvpmodel.iml" filepath="$PROJECT_DIR$/mvpmodel/mvpmodel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmodel/popularmodel.iml" filepath="$PROJECT_DIR$/popularmodel/popularmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/searchmodel/searchmodel.iml" filepath="$PROJECT_DIR$/searchmodel/searchmodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\searchmodel\searchmodel.iml" filepath="D:\project\VideoKotlin\searchmodel\searchmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/videodetailsmodel/videodetailsmodel.iml" filepath="$PROJECT_DIR$/videodetailsmodel/videodetailsmodel.iml" />
-      <module fileurl="file://D:\project\VideoKotlin\videodetailsmodel\videodetailsmodel.iml" filepath="D:\project\VideoKotlin\videodetailsmodel\videodetailsmodel.iml" />
     </modules>
   </component>
 </project>
