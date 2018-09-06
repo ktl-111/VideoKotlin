@@ -2,6 +2,7 @@ package l.liubin.com.videokotlin.ui.activity
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.v4.app.FragmentTransaction
 import android.widget.RadioButton
 import com.example.categoriesmodel.fragment.CategoriesFragment
 import com.example.indexmodel.fragment.IndexFragment
@@ -61,36 +62,36 @@ class MainActivity : BaseActivity() {
                 R.id.rb_home_index -> {
                     mIndexFragment?.let { beginTransaction.show(it) }
                             ?: IndexFragment()?.let {
-                                mIndexFragment = it
-                                beginTransaction.add(R.id.fl_home_content, it, TAG_INDEX)
-                            }
+                        mIndexFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, TAG_INDEX)
+                    }
                     mCurrFragment = mIndexFragment
                     immersionBar.fitsSystemWindows(false).transparentStatusBar().init()
                 }
                 R.id.rb_home_find -> {
                     mFindFragment?.let { beginTransaction.show(it) }
                             ?: CategoriesFragment()?.let {
-                                mFindFragment = it
-                                beginTransaction.add(R.id.fl_home_content, it, TAG_FIND)
-                            }
+                        mFindFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, TAG_FIND)
+                    }
                     mCurrFragment = mFindFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_popular -> {
                     mPopularFragment?.let { beginTransaction.show(it) }
                             ?: PopularFragment()?.let {
-                                mPopularFragment = it
-                                beginTransaction.add(R.id.fl_home_content, it, TAG_POPULAR)
-                            }
+                        mPopularFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, TAG_POPULAR)
+                    }
                     mCurrFragment = mPopularFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_mine -> {
                     mMineFragment?.let { beginTransaction.show(it) }
                             ?: MineFragment()?.let {
-                                mMineFragment = it
-                                beginTransaction.add(R.id.fl_home_content, it, TAG_MINE)
-                            }
+                        mMineFragment = it
+                        beginTransaction.add(R.id.fl_home_content, it, TAG_MINE)
+                    }
                     mCurrFragment = mMineFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
@@ -99,4 +100,12 @@ class MainActivity : BaseActivity() {
         }
         rg_home_layout.check(R.id.rb_home_index)
     }
+}
+
+private fun FragmentTransaction.add(fl_home_content: Int, it: MineFragment, taG_MINE: String): FragmentTransaction? {
+    return this
+}
+
+private fun FragmentTransaction.show(it: MineFragment): FragmentTransaction? {
+    return this
 }
