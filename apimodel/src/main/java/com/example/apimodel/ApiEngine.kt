@@ -1,8 +1,6 @@
 package l.liubin.com.videokotlin.api
 
-import com.example.apimodel.BuildConfig
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,9 +28,10 @@ class ApiEngine {
                     .connectTimeout(12, TimeUnit.SECONDS)
                     .writeTimeout(12, TimeUnit.SECONDS)
                     .writeTimeout(12, TimeUnit.SECONDS)
-            if (BuildConfig.DEBUG) {
-                builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            }
+            //下载不能加这个,不然的话会网络拿完数据才进行读写操作
+//            if (BuildConfig.DEBUG) {
+//                builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//            }
 //             builder.addInterceptor(DownloadInterceptor())
             return builder
         }
