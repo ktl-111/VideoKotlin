@@ -26,6 +26,11 @@ android {
         }
     }
 }
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 def dbflow_version = "4.2.4"
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -57,5 +62,7 @@ dependencies {
     api project(':indexmodel')
     api project(':categoriesmodel')
     api project(':popularmodel')
-    api project(':minemodel')
+//    api project(':minemodel')
+    compile(name: 'minemodel-debug', ext: 'aar')
 }
+
