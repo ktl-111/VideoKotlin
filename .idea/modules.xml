@@ -8,14 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/beanmodel/beanmodel.iml" filepath="$PROJECT_DIR$/beanmodel/beanmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" filepath="$PROJECT_DIR$/categoriesmodel/categoriesmodel.iml" />
-      <module fileurl="file://E:\project\VideoKotlin\categoriesmodel\categoriesmodel.iml" filepath="E:\project\VideoKotlin\categoriesmodel\categoriesmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/downloadmodel/downloadmodel.iml" filepath="$PROJECT_DIR$/downloadmodel/downloadmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/indexmodel/indexmodel.iml" filepath="$PROJECT_DIR$/indexmodel/indexmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/minemodel/minemodel.iml" filepath="$PROJECT_DIR$/minemodel/minemodel.iml" />
-      <module fileurl="file://E:\project\VideoKotlin\minemodel\minemodel.iml" filepath="E:\project\VideoKotlin\minemodel\minemodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvpmodel/mvpmodel.iml" filepath="$PROJECT_DIR$/mvpmodel/mvpmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/popularmodel/popularmodel.iml" filepath="$PROJECT_DIR$/popularmodel/popularmodel.iml" />
-      <module fileurl="file://E:\project\VideoKotlin\popularmodel\popularmodel.iml" filepath="E:\project\VideoKotlin\popularmodel\popularmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/searchmodel/searchmodel.iml" filepath="$PROJECT_DIR$/searchmodel/searchmodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/videodetailsmodel/videodetailsmodel.iml" filepath="$PROJECT_DIR$/videodetailsmodel/videodetailsmodel.iml" />

@@ -2,6 +2,7 @@ package com.example.base
 
 import android.app.Application
 import android.content.Context
+import com.example.utils.BlockDetectByChoreographer
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 
@@ -18,6 +19,7 @@ class MyApplication : Application() {
         context = applicationContext
         FlowManager.init(FlowConfig.builder(context)
                 .build())
+        BlockDetectByChoreographer.start()
     }
 
 }

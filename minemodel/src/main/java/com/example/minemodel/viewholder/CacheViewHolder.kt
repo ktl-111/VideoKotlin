@@ -141,7 +141,7 @@ class CacheViewHolder(parent: ViewGroup, context: Context) : BaseViewHolder<Down
                 tv_progress.text = "暂停下载"
             }
             DownloadState.STATE_SUCCESS -> {
-                iv_state.setBackgroundResource(R.mipmap.ic_launcher)
+                iv_state.setBackgroundResource(R.mipmap.open_video)
                 tv_progress.text = "下载完成"
             }
         }
