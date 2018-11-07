@@ -5,13 +5,11 @@
               android:orientation="vertical">
 
     <include layout="@layout/include_title"></include>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="addDownload"
         android:text="Test Download(请在WIFI环境下点击)"/>
-
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/erv_cache_list"
         android:layout_width="match_parent"
