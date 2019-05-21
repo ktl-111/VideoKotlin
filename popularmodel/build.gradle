@@ -48,7 +48,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation librarys["support_appcompat_v7"]
     implementation librarys["support_v4"]
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

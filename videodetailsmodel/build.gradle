@@ -30,7 +30,6 @@ android {
     }
 
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation librarys["support_appcompat_v7"]
@@ -41,4 +40,9 @@ dependencies {
     api 'com.shuyu:GSYVideoPlayer:4.1.3'
     api project(':mvpmodel')
     api project(':downloadmodel')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    api 'com.steaml:download:1.0.3'
+}
+repositories {
+    mavenCentral()
 }

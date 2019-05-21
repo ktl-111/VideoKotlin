@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 def configs = rootProject.ext.configs
 def librarys = rootProject.ext.librarys
@@ -16,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'com.android.support.test:runne'
     }
 
     buildTypes {
@@ -31,10 +30,20 @@ repositories {
         dirs 'libs'
     }
 }
-def dbflow_version = "4.2.4"
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '28.0.0'
+            }
+        }
+    }
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //noinspection GradleCompatible
     implementation librarys["support_appcompat_v7"]
     implementation librarys["support_design"]
@@ -42,27 +51,24 @@ dependencies {
     implementation librarys["support_recyclerview_v7"]
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //banner
-    compile 'com.youth.banner:banner:1.4.9'
+    implementation 'com.youth.banner:banner:1.4.9'
     //圆角imgview
-    compile 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     //    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //noinspection GradleCompatible
-    implementation 'com.android.support:palette-v7:27.1.1'
+    implementation 'com.android.support:palette-v7:28.0.0'
     implementation 'com.google.android:flexbox:0.3.1'
-    compile 'com.android.support:multidex:1.0.0'
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    api "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    implementation 'com.android.support:multidex:1.0.0'
     api project(':downloadmodel')
+//    api 'com.steaml:download:1.0.0'
     api project(':indexmodel')
     api project(':categoriesmodel')
     api project(':popularmodel')
-//    api project(':minemodel')
-    compile(name: 'minemodel-debug', ext: 'aar')
+    api project(':minemodel')
+//    compile(name: 'minemodel-debug', ext: 'aar')
 }
 

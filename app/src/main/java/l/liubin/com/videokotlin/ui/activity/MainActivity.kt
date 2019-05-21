@@ -102,10 +102,3 @@ class MainActivity : BaseActivity() {
     }
 }
 
-private fun FragmentTransaction.add(fl_home_content: Int, it: MineFragment, taG_MINE: String): FragmentTransaction? {
-    return this
-}
-
-private fun FragmentTransaction.show(it: MineFragment): FragmentTransaction? {
-    return this
-}

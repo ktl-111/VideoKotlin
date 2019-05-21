@@ -31,7 +31,8 @@ class ApiEngine {
                     .writeTimeout(12, TimeUnit.SECONDS)
                     .writeTimeout(12, TimeUnit.SECONDS)
             if (BuildConfig.DEBUG) {
-                builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//                下载如果加了拦截器就不能断点下载,因为有拦截器在会一次性读取全部流
+//                builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             }
 //             builder.addInterceptor(DownloadInterceptor())
             return builder

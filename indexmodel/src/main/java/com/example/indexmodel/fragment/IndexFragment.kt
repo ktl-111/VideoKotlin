@@ -14,6 +14,7 @@ import com.example.base.MyApplication
 import com.example.indexmodel.R
 import com.example.indexmodel.mvp.presenter.IndexPresenter
 import com.example.indexmodel.mvp.view.IndexView
+import com.example.searchmodel.activity.SearchActivity
 import com.example.videodetailsmodel.activity.VideoDetailsActivity
 import com.gyf.barlibrary.ImmersionBar
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
@@ -191,7 +192,7 @@ class IndexFragment : MvpFragment<IndexPresenter>(), IndexView, SwipeRefreshLayo
                 tb_index_bar.setBackgroundColor(Color.parseColor(hex))
             }
         })
-//        iv_index_search.setOnClickListener { startActivity(Intent(mContext, SearchActivity::class.java)) }
+        iv_index_search.setOnClickListener { startActivity(Intent(mContext, SearchActivity::class.java)) }
     }
 
     override fun onRefresh() {

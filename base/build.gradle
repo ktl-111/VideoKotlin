@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 def configs = rootProject.ext.configs
 def librarys = rootProject.ext.librarys
 android {
@@ -37,7 +38,7 @@ dependencies {
     api "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     api "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     //状态栏
-    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+    api 'com.gyf.barlibrary:barlibrary:2.3.0'
     //retrofit
     api librarys["retrofit"]
     api librarys["converter_gson"]
@@ -52,4 +53,8 @@ dependencies {
     api librarys["logging_interceptor"]
     api project(':utils')
     api project(':beanmodel')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

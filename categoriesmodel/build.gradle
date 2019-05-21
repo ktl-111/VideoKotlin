@@ -32,11 +32,15 @@ dependencies {
     implementation librarys["support_design"]
     implementation librarys["support_cardview_v7"]
     //毛玻璃
-    compile 'com.github.mmin18:realtimeblurview:1.1.0'
+    implementation 'com.github.mmin18:realtimeblurview:1.1.0'
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     api project(':mvpmodel')
     api project(':videodetailsmodel')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

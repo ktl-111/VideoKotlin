@@ -134,13 +134,13 @@ class DownloadService : Service() {
 
     private fun senBroadcast(model: DownloadModel) {
         when (model.state) {
-            DownloadState.STATE_PAUSE -> sendMainThread(model, DownloadListener::onPause)
-            DownloadState.STATE_START -> sendMainThread(model, DownloadListener::onStartDownload)
-            DownloadState.STATE_SUCCESS -> sendMainThread(model, DownloadListener::onFinishDownload)
-            DownloadState.STATE_FAILED -> sendMainThread(model, DownloadListener::onFiled)
-            DownloadState.STATE_DOWNLOAD -> sendMainThread(model, DownloadListener::onProgress)
-            DownloadState.STATE_WAIT -> sendMainThread(model, DownloadListener::onWait)
-            DownloadState.STATE_STOP -> sendMainThread(model, DownloadListener::onStop)
+            DownloadState.STATE_PAUSE        -> sendMainThread(model, DownloadListener::onPause)
+            DownloadState.STATE_START    -> sendMainThread(model, DownloadListener::onStartDownload)
+            DownloadState.STATE_SUCCESS     -> sendMainThread(model, DownloadListener::onFinishDownload)
+            DownloadState.STATE_FAILED   -> sendMainThread(model, DownloadListener::onFiled)
+            DownloadState.STATE_DOWNLOAD    -> sendMainThread(model, DownloadListener::onProgress)
+            DownloadState.STATE_WAIT        -> sendMainThread(model, DownloadListener::onWait)
+            DownloadState.STATE_STOP         -> sendMainThread(model, DownloadListener::onStop)
         }
     }
 

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 def configs = rootProject.ext.configs
 def librarys = rootProject.ext.librarys
 android {
@@ -31,13 +32,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //retrofit
-    compile librarys["retrofit"]
-    compile librarys["converter_gson"]
-    compile librarys["retrofit_rxjava"]
+    implementation librarys["retrofit"]
+    implementation librarys["converter_gson"]
+    implementation librarys["retrofit_rxjava"]
     //okhttp
     implementation librarys["okhttp"]
-    compile librarys["logging_interceptor"]
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation librarys["logging_interceptor"]
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()
