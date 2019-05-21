@@ -5,6 +5,6 @@ package l.liubin.com.videokotlin.api
  */
 interface Api {
     companion object {
-        val BASE_URL = "http://baobab.kaiyanapp.com/api/"
+        val BASE_URL = "https://baobab.kaiyanapp.com/api/"
     }
 }

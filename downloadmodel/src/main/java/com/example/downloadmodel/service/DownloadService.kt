@@ -60,10 +60,10 @@ class DownloadService : Service() {
         states[model.download_url] = model
         var observable: Observable<Response<ResponseBody>> = if (model.currlength == 0.toLong()) {
             //第一次下载,直接拿
-            ApiEngine.apiEngine.getApiService(DownloadMvpModel.apiClazz).check(model.download_url)
+            ApiEngine.apiEngine.getApiDownloadService(DownloadMvpModel.apiClazz).check(model.download_url)
         } else {
             //第二次下载,要加range
-            ApiEngine.apiEngine.getApiService(DownloadMvpModel.apiClazz).download("bytes=${model.currlength}-${model.totallength}", model.download_url)
+            ApiEngine.apiEngine.getApiDownloadService(DownloadMvpModel.apiClazz).download("bytes=${model.currlength}-${model.totallength}", model.download_url)
         }
 
         observable
