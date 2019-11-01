@@ -30,15 +30,15 @@ class CacheActivity : BaseActivity() {
         str.setSpan(RelativeSizeSpan(0.7f), l.liubin.com.videokotlin.utils.Utils.getStringFromResources(com.example.base.MyApplication.Companion.context, R.string.my_cache).length, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_include_title.text = str
         erv_cache_list.setLayoutManager(android.support.v7.widget.LinearLayoutManager(mContext))
-        mAdapter = object : com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter<com.example.downloadmodel.datebase.DownloadModel>(mContext) {
+        mAdapter = object : com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter<DownloadModel>(mContext) {
             override fun OnCreateViewHolder(parent: ViewGroup, viewType: Int): com.jude.easyrecyclerview.adapter.BaseViewHolder<*> {
                 return CacheViewHolder(parent, mContext)
             }
         }
         l.liubin.com.videokotlin.utils.initRecyclerView(erv_cache_list)
         erv_cache_list.adapter = mAdapter
-        io.reactivex.Observable.create(ObservableOnSubscribe<List<com.example.downloadmodel.datebase.DownloadModel>> { e ->
-            var list = Select().from(com.example.downloadmodel.datebase.DownloadModel::class.java).queryList()
+        io.reactivex.Observable.create(ObservableOnSubscribe<List<DownloadModel>> { e ->
+            var list = Select().from(DownloadModel::class.java).queryList()
             e.onNext(list)
         })
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
@@ -91,17 +91,17 @@ class CacheActivity : BaseActivity() {
     }
 
     private fun createDownload(downloadUrl: String, title: String, imgUrl: String) {
-        var model = com.example.downloadmodel.datebase.DownloadModel()
+        var model = DownloadModel()
         model.download_url = downloadUrl
         model.title = title
         model.img_url = imgUrl
-        model.savepath = "${Environment.getExternalStorageDirectory().getPath()}/VideoKotlin/$title.apk"
-        com.example.downloadmodel.manager.DownloadManager.Companion.getInstance(mContext).create(mContext, model)
+        model.savepath = "${Environment.getExternalStorageDirectory().path}/VideoKotlin/$title.apk"
+        com.example.downloadmodel.manager.DownloadManager.getInstance(mContext).create(mContext, model)
     }
 
     override fun initEvent() {
         mAdapter.setOnItemClickListener { position ->
-            var item = com.raizlabs.android.dbflow.sql.language.Select().from(com.example.downloadmodel.datebase.DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(mAdapter.getItem(position).download_url)).querySingle()
+            var item = com.raizlabs.android.dbflow.sql.language.Select().from(DownloadModel::class.java).where(DownloadModel_Table.download_url.`is`(mAdapter.getItem(position).download_url)).querySingle()
             item?.state?.also {
                 if (it == l.liubin.com.videokotlin.download.DownloadState.STATE_SUCCESS) {
                     l.liubin.com.videokotlin.utils.openVideo(mContext, item.savepath)

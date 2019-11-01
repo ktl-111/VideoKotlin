@@ -61,37 +61,37 @@ class MainActivity : BaseActivity() {
             when (Id) {
                 R.id.rb_home_index -> {
                     mIndexFragment?.let { beginTransaction.show(it) }
-                            ?: IndexFragment()?.let {
-                        mIndexFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, TAG_INDEX)
-                    }
+                            ?: IndexFragment().let {
+                                mIndexFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, TAG_INDEX)
+                            }
                     mCurrFragment = mIndexFragment
                     immersionBar.fitsSystemWindows(false).transparentStatusBar().init()
                 }
                 R.id.rb_home_find -> {
                     mFindFragment?.let { beginTransaction.show(it) }
-                            ?: CategoriesFragment()?.let {
-                        mFindFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, TAG_FIND)
-                    }
+                            ?: CategoriesFragment().let {
+                                mFindFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, TAG_FIND)
+                            }
                     mCurrFragment = mFindFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_popular -> {
                     mPopularFragment?.let { beginTransaction.show(it) }
-                            ?: PopularFragment()?.let {
-                        mPopularFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, TAG_POPULAR)
-                    }
+                            ?: PopularFragment().let {
+                                mPopularFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, TAG_POPULAR)
+                            }
                     mCurrFragment = mPopularFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }
                 R.id.rb_home_mine -> {
                     mMineFragment?.let { beginTransaction.show(it) }
-                            ?: MineFragment()?.let {
-                        mMineFragment = it
-                        beginTransaction.add(R.id.fl_home_content, it, TAG_MINE)
-                    }
+                            ?: MineFragment().let {
+                                mMineFragment = it
+                                beginTransaction.add(R.id.fl_home_content, it, TAG_MINE)
+                            }
                     mCurrFragment = mMineFragment
                     immersionBar.fitsSystemWindows(true).statusBarColor(R.color.white).init()
                 }

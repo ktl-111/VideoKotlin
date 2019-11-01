@@ -2,9 +2,9 @@ package l.liubin.com.videokotlin.ui.fragment
 
 import android.content.Context
 import com.example.base.MyApplication
+import com.example.popularmodel.R
 import com.example.popularmodel.mvp.persenter.PopularPresenter
 import com.example.popularmodel.mvp.view.PopularView
-import com.example.searchmodel.R
 import com.hazz.kotlinmvp.mvp.model.bean.TabInfoBean
 import kotlinx.android.synthetic.main.fragment_popular.*
 import kotlinx.android.synthetic.main.include_title.*

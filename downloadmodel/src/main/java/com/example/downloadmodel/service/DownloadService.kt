@@ -14,6 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import l.liubin.com.videokotlin.api.ApiEngine
 import l.liubin.com.videokotlin.download.DownloadListener
 import l.liubin.com.videokotlin.download.DownloadState
+import l.liubin.com.videokotlin.utils.logD
 import okhttp3.ResponseBody
 import okhttp3.internal.http.HttpHeaders
 import retrofit2.Response
@@ -50,7 +51,7 @@ class DownloadService : Service() {
     }
 
     fun addListener(url: String, downloadListener: DownloadListener) {
-        listeners.put(url, downloadListener)
+        listeners[url] = downloadListener
     }
 
     fun start(model: DownloadModel) {
@@ -59,9 +60,11 @@ class DownloadService : Service() {
         senBroadcast(model)
         states[model.download_url] = model
         var observable: Observable<Response<ResponseBody>> = if (model.currlength == 0.toLong()) {
+            logD(this.javaClass, "第一次下载")
             //第一次下载,直接拿
             ApiEngine.apiEngine.getApiDownloadService(DownloadMvpModel.apiClazz).check(model.download_url)
         } else {
+            logD(this.javaClass, "断点下载")
             //第二次下载,要加range
             ApiEngine.apiEngine.getApiDownloadService(DownloadMvpModel.apiClazz).download("bytes=${model.currlength}-${model.totallength}", model.download_url)
         }
@@ -94,7 +97,7 @@ class DownloadService : Service() {
                     }
 
                     override fun onSubscribe(d: Disposable) {
-                        mDisposables.put(model.download_url, d)
+                        mDisposables[model.download_url] = d
                     }
                 })
     }
@@ -134,13 +137,13 @@ class DownloadService : Service() {
 
     private fun senBroadcast(model: DownloadModel) {
         when (model.state) {
-            DownloadState.STATE_PAUSE        -> sendMainThread(model, DownloadListener::onPause)
-            DownloadState.STATE_START    -> sendMainThread(model, DownloadListener::onStartDownload)
-            DownloadState.STATE_SUCCESS     -> sendMainThread(model, DownloadListener::onFinishDownload)
-            DownloadState.STATE_FAILED   -> sendMainThread(model, DownloadListener::onFiled)
-            DownloadState.STATE_DOWNLOAD    -> sendMainThread(model, DownloadListener::onProgress)
-            DownloadState.STATE_WAIT        -> sendMainThread(model, DownloadListener::onWait)
-            DownloadState.STATE_STOP         -> sendMainThread(model, DownloadListener::onStop)
+            DownloadState.STATE_PAUSE -> sendMainThread(model, DownloadListener::onPause)
+            DownloadState.STATE_START -> sendMainThread(model, DownloadListener::onStartDownload)
+            DownloadState.STATE_SUCCESS -> sendMainThread(model, DownloadListener::onFinishDownload)
+            DownloadState.STATE_FAILED -> sendMainThread(model, DownloadListener::onFiled)
+            DownloadState.STATE_DOWNLOAD -> sendMainThread(model, DownloadListener::onProgress)
+            DownloadState.STATE_WAIT -> sendMainThread(model, DownloadListener::onWait)
+            DownloadState.STATE_STOP -> sendMainThread(model, DownloadListener::onStop)
         }
     }
 

@@ -1,0 +1,147 @@
+import groovy.json.JsonSlurper
+
+import java.text.SimpleDateFormat
+
+//自动打包上传的gradle
+class UploadBean {
+    String version //当前版本
+    String flavors = ""//flavorsname
+    boolean isRelease//是否正式包
+    int tag
+
+    @Override
+    String toString() {
+        return "version:$version  flavors:$flavors  isRelease:$isRelease  tag:$tag"
+    }
+}
+
+
+class TestPlugin implements Plugin<Project> {
+    String uploadTaskName = "aBaleAndUpload"
+
+    @Override
+    void apply(Project project) {
+        project.extensions.add("upload", UploadBean)
+        project.afterEvaluate {
+            // 取得外部参数
+            UploadBean bean = project.upload
+            def str = bean.flavors
+            def isRelease = bean.isRelease
+            String buildType
+            if (isRelease) {
+                buildType = "Release"
+            } else {
+                buildType = "Debug"
+            }
+            println bean
+            //创建task
+            project.tasks.create(uploadTaskName) {
+                doLast {
+                    uploadApk(project.getProjectDir().getAbsolutePath(), str, buildType, bean.tag, bean.version)
+                }
+            }.dependsOn("assemble$str$buildType")
+        }
+    }
+
+
+    def uploadApk(String rootPath, String dirname, String buildType, int tag, String version) {
+        //查找上传的apk文件  task打包在build文件夹下
+        def apkDir = new File("$rootPath\\build\\outputs\\apk\\" + dirname + "\\" + buildType)
+        println "路径:$apkDir"
+        if (!apkDir.exists()) {
+            throw new RuntimeException("apk output path not exists!")
+        }
+
+        def apk = null
+
+        for (int i = apkDir.listFiles().length - 1; i >= 0; i--) {
+            File file = apkDir.listFiles()[i]
+            if (file.name.endsWith(".apk") && file.name.contains(version)) {
+                if (apk == null) {
+                    apk = file
+                } else {
+                    if (apk.lastModified() < file.lastModified()) {
+                        apk = file
+                    }
+                }
+            }
+        }
+        if (apk == null) {
+            throw new RuntimeException("apk file not exists!")
+        }
+
+        println("上传apk:$apkDir\\$apk.name")
+        println "*************** start upload file ***************"
+
+        def twoHyphens = "--"
+        def boundary = "*********"
+        def end = "\r\n"
+
+        //模拟表单上传 multipart/form-data
+        def conn = new URL("https://www.pgyer.com/apiv2/app/upload").openConnection()
+        conn.setRequestMethod('POST')
+        conn.setRequestProperty("Connection", "Keep-Alive")
+        conn.setRequestProperty("Charset", "UTF-8")
+        conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary)
+        conn.setDoInput(true)
+        conn.setDoOutput(true)
+
+        //蒲公英key
+        def apikey = "c1d40a027a8b3cc9d032f0a9ced605f8"
+
+        //_api_key(必填) API Key
+        def sb = new StringBuilder()
+        sb.append(twoHyphens).append(boundary).append(end)
+        sb.append("Content-Disposition: form-data; name=_api_key")
+        sb.append(end).append(end)
+        sb.append(apikey).append(end)
+
+        //buildInstallType(选填)应用安装方式，值为(1,2,3，4)。1：公开，2：密码安装，3：邀请安装，4：回答问题安装。默认为1公开
+        sb.append(twoHyphens).append(boundary).append(end)
+        sb.append("Content-Disposition: form-data; name=buildInstallType")
+        sb.append(end).append(end)
+        sb.append("1").append(end)
+
+        //file(必填) 需要上传的ipa或者apk文件
+        sb.append(twoHyphens).append(boundary).append(end)
+        sb.append("Content-Disposition: form-data; name=file;filename=").append(apk.getName())
+        sb.append(end).append(end)
+
+        def dos = new DataOutputStream(conn.getOutputStream())
+        dos.writeBytes(sb.toString())
+        dos.flush()
+        sb.delete(0, sb.length())
+
+        def fis = new FileInputStream(apk)
+        byte[] bf = new byte[8192]
+        int len
+        while ((len = fis.read(bf)) != -1) {
+            dos.write(bf, 0, len)
+        }
+        sb.append(end)
+        sb.append(twoHyphens).append(boundary).append(end)
+        dos.writeBytes(sb.toString())
+
+        dos.flush()
+        fis.close()
+        dos.close()
+        conn.connect()
+
+        def text = conn.getContent().text
+        def resp = new JsonSlurper().parseText(text)
+
+        def date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+        println text
+        println "*************** upload finish ***************\n" + date
+
+        if (resp.code != 0) {
+            throw new RuntimeException(resp.message)
+        }
+
+        def url = "https://www.pgyer.com/" + resp.data.buildShortcutUrl
+        println "$url"
+    }
+
+}
+
+apply plugin: TestPlugin

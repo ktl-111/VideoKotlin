@@ -34,7 +34,6 @@ class ApiEngine {
         val builder = OkHttpClient.Builder()
                 .connectTimeout(12, TimeUnit.SECONDS)
                 .writeTimeout(12, TimeUnit.SECONDS)
-                .writeTimeout(12, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
 //                下载如果加了拦截器就不能断点下载,因为有拦截器在会一次性读取全部流
             builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -46,7 +45,6 @@ class ApiEngine {
     fun getDownloadOkHttpBuidler(): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
                 .connectTimeout(12, TimeUnit.SECONDS)
-                .writeTimeout(12, TimeUnit.SECONDS)
                 .writeTimeout(12, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
 //                下载如果加了拦截器就不能断点下载,因为有拦截器在会一次性读取全部流

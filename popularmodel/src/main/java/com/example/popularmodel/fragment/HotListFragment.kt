@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.ViewGroup
+import com.example.popularmodel.R
 import com.example.popularmodel.mvp.persenter.HotPresenter
 import com.example.popularmodel.mvp.view.HotView
 import com.example.popularmodel.viewholder.HotViewHolder
-import com.example.searchmodel.R
 import com.example.videodetailsmodel.activity.VideoDetailsActivity
 import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 import com.jude.easyrecyclerview.adapter.BaseViewHolder

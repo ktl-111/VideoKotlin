@@ -34,7 +34,7 @@ class DownloadManager {
     }
 
     companion object {
-        val downloadPath = Environment.getExternalStorageDirectory().getPath() + "/VideoKotlin/"
+        val downloadPath = Environment.getExternalStorageDirectory().path + "/VideoKotlin/"
         var instance: DownloadManager? = null
         fun getInstance(context: Context): DownloadManager {
             return instance ?: createInstance(context)?.let {

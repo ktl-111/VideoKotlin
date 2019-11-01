@@ -4,26 +4,27 @@ ext {
             buildToolsVersion: "28.0.0",
             minSdkVersion    : 19,
             targetSdkVersion : 28,
-            versionCode      : 35,
-            versionName      : "1.2.1"
+            versionCode      : 2,
+            versionName      : "1.2.0"
     ]
     librarys = [
-            "test"                   : "junit:junit:4.12",
-            "support_v4"             : "com.android.support:support-v4:28.0.0",
-            "support_appcompat_v7"   : "com.android.support:appcompat-v7:28.0.0",
-            "support_design"         : "com.android.support:design:28.0.0",
-            "support_recyclerview_v7": "com.android.support:recyclerview-v7:28.0.0",
-            "support_cardview_v7"    : "com.android.support:cardview-v7:28.0.0",
+            "test"                    : "junit:junit:4.12",
+            "support_v4"              : "com.android.support:support-v4:28.0.0",
+            "support_appcompat_v7"    : "com.android.support:appcompat-v7:28.0.0",
+            "support_design"          : "com.android.support:design:28.0.0",
+            "support_constraintlayout": "com.android.support.constraint:constraint-layout:1.1.2",
+            "support_recyclerview_v7" : "com.android.support:recyclerview-v7:28.0.0",
+            "support_cardview_v7"     : "com.android.support:cardview-v7:28.0.0",
             //rxjava
-            "rxjava"                 : "io.reactivex.rxjava2:rxjava:2.1.2",
-            "rxandroid"              : "io.reactivex.rxjava2:rxandroid:2.0.1",
+            "rxjava"                  : "io.reactivex.rxjava2:rxjava:2.1.2",
+            "rxandroid"               : "io.reactivex.rxjava2:rxandroid:2.0.1",
             //okhttp
-            "okhttp"                 : "com.squareup.okhttp3:okhttp:3.10.0",
-            "logging_interceptor"    : "com.squareup.okhttp3:logging-interceptor:3.8.1",
+            "okhttp"                  : "com.squareup.okhttp3:okhttp:3.10.0",
+            "logging_interceptor"     : "com.squareup.okhttp3:logging-interceptor:3.8.1",
             //retrofit
-            "retrofit"               : "com.squareup.retrofit2:retrofit:2.3.0",
-            "converter_gson"         : "com.squareup.retrofit2:converter-gson:2.0.2",
-            "retrofit_rxjava"        : "com.squareup.retrofit2:adapter-rxjava2:2.2.0"
+            "retrofit"                : "com.squareup.retrofit2:retrofit:2.3.0",
+            "converter_gson"          : "com.squareup.retrofit2:converter-gson:2.0.2",
+            "retrofit_rxjava"         : "com.squareup.retrofit2:adapter-rxjava2:2.2.0"
     ]
 
 }

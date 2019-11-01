@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.searchmodel">
+          package="com.example.popularmodel">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:name="com.example.base.MyApplication"

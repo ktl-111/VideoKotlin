@@ -2,9 +2,25 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply from:"$rootDir.absolutePath/baleUpload.gradle"
 def configs = rootProject.ext.configs
 def librarys = rootProject.ext.librarys
+upload {
+    version configs["versionName"]
+    isRelease true
+}
 android {
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+    properties.load(inputStream)
+    signingConfigs {
+        config {
+            keyAlias 'liubin1996'
+            keyPassword 'liubin1996'
+            storeFile file(properties.getProperty('signingFileUrl'))
+            storePassword 'liubin1996'
+        }
+    }
     compileSdkVersion configs["compileSdkVersion"]
     defaultConfig {
         applicationId "l.liubin.com.videokotlin"
@@ -12,16 +28,24 @@ android {
         targetSdkVersion configs["targetSdkVersion"]
         renderscriptSupportModeEnabled true
         renderscriptTargetApi configs["minSdkVersion"]
-        versionCode 1
-        versionName "1.0.0"
+        versionCode configs["versionCode"]
+        versionName configs["versionName"]
         multiDexEnabled true
         testInstrumentationRunner 'com.android.support.test:runne'
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "videokotlin_${configs["versionName"]}.apk"
+                }
+            }
         }
     }
 }

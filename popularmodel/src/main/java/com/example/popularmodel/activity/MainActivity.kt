@@ -1,6 +1,6 @@
 package com.example.popularmodel.activity
 
-import com.example.searchmodel.R
+import com.example.popularmodel.R
 import l.liubin.com.videokotlin.ui.base.BaseActivity
 
 /**
